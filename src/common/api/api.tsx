@@ -1,5 +1,5 @@
 // swagger url => base
-const base_url: string = 'http://161.35.214.247:8080/';
+const base_url: string = 'http://142.93.106.195/';
 // const base_url: string = 'http://192.168.0.116:8080/';
 
 // ESLATMA: URL OXRIDA => / QUYILGAN BULSA YOKI ID KETADI YOKI TEXT YANI SEARCHLAR UCHUN

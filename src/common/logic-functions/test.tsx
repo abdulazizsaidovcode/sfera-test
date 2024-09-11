@@ -13,19 +13,17 @@ import { consoleClear } from '../console-clear/console-clear.tsx';
 export const fetchQuiz = async (id: string | undefined, setQuizData: (val: TestMainData) => void, setIsLoading: (val: boolean) => void, setTotalTime: (Val: number) => void) => {
   setIsLoading(true);
   try {
-    const { data } = await axios.get(`${quiz_start}${id}`, config);
+    const { data } = await axios.get(`${quiz_start}/${id}`, config);
     if (data.success) {
-      consoleClear();
       setQuizData({
         quizList: data.body.questionDtoList,
         quiz: data.body,
         currentQuestionIndex: 0,
         remainingTime: data.body.duration
       });
-      setTotalTime(data.body.duration * 60)
+      setTotalTime(data.body.duration * 60);
       setIsLoading(false);
     } else {
-      consoleClear();
       setIsLoading(false);
       setQuizData({
         quizList: [],
@@ -60,7 +58,6 @@ export const sendResults = async (id: string | undefined, duration: number, coun
   try {
     const { data } = await axios.post(`${quiz_pass}/${id}?duration=${duration}&countAnswers=${countAnswers}`, payload, config);
     if (data.success) {
-      consoleClear();
       navigate('/client/quiz/result');
       setIsLoading(false);
       setCurrentIndex(0);
@@ -76,10 +73,7 @@ export const sendResults = async (id: string | undefined, duration: number, coun
       });
       localStorage.removeItem('remainingTime');
       localStorage.removeItem('currentIndex');
-    } else {
-      consoleClear();
-      setIsLoading(false);
-    }
+    } else setIsLoading(false);
   } catch {
     consoleClear();
     setIsLoading(false);
@@ -87,18 +81,18 @@ export const sendResults = async (id: string | undefined, duration: number, coun
   }
 };
 
-export const getCertificate = async (id: number, setIsLoading: (val: boolean) => void) => {
-  setIsLoading(true);
+export const getCertificate = async (id: number, setIsLoading: (val: any) => void) => {
+  setIsLoading((prev: any) => ({ ...prev, [id]: { ...prev[id], email: true } }));
   try {
     const { data } = await axios.post(`${certificate}/${id}`, {}, config);
     if (data.success) {
-      setIsLoading(false);
-      toast.success('Сертификат электрон почтангизга муваффақиятли юборилди')
+      toast.success('Сертификат электрон почтангизга муваффақиятли юборилди');
       consoleClear();
-    } else setIsLoading(false)
+    }
   } catch {
     consoleClear();
-    setIsLoading(false);
+  } finally {
+    setIsLoading((prev: any) => ({ ...prev, [id]: { ...prev[id], email: false } }));
   }
 };
 
@@ -118,7 +112,6 @@ export const allFilterOrGet = async (setData: (val: null | TestList[]) => void, 
       setLoading(false);
       setData(data.body.body);
       setTotalPage(data.body.totalElements);
-      consoleClear();
     } else {
       setData(null);
       setLoading(false);
@@ -152,12 +145,10 @@ export const adminTestCrud = async (
     try {
       const { data } = await axios.post(question_crud, crudData, config);
       if (data.success) {
-        consoleClear();
         setResData(true);
         setLoading(false);
         toast.success('Тест муваффақиятли сақланди');
       } else {
-        consoleClear();
         toast.error('Тест сақлашда хатолик юз берди');
         setLoading(false);
       }
@@ -174,17 +165,15 @@ export const adminTestCrud = async (
           categoryId: crudData.categoryId,
           type: crudData.type,
           difficulty: crudData.difficulty,
-          // score: crudData.score,
+          finiteError: crudData.finiteError ? crudData.finiteError : 0,
           attachmentIds: crudData.attachmentIds ? crudData.attachmentIds : [],
           optionDtos: crudData.optionDtos
         }, config);
         if (data.success) {
-          consoleClear();
           setResData(true);
           setLoading(false);
           toast.success('Тест муваффақиятли таҳрирланди');
         } else {
-          consoleClear();
           toast.error('Хатолик юз берди');
           setLoading(false);
         }
@@ -206,7 +195,7 @@ export const adminTestCrud = async (
           consoleClear();
           setResData(true);
           setLoading(false);
-          toast.success('Тест муваффақиятли учирилди');
+          toast.success('Тест муваффақиятли ўчирилди');
         } else {
           consoleClear();
           toast.error('Хатолик юз берди');
@@ -242,15 +231,15 @@ export const questionTransfer = async (
     const { data } = await axios.put(question_transfer, transferData, config);
     if (data.success) {
       await allFilterOrGet(setData, page, setTotalPage, setLoading);
-      toast.success('Тест муваффақиятли кучирилди');
+      toast.success('Тест муваффақиятли кўчирилди');
       closeModalTest();
     } else {
-      toast.error('Тест кучиришда қандайдур хатолик юз берди');
+      toast.error('Тест кўчиришда қандайдир хатолик юз берди');
       closeModalTest();
     }
   } catch (err) {
     closeModalTest();
-    toast.error('Тест кучиришда қандайдур хатолик юз берди');
+    toast.error('Тест кўчиришда қандайдир хатолик юз берди');
     consoleClear();
   }
 };

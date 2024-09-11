@@ -20,6 +20,8 @@
     "flatpickr": "^4.6.13",
     "headlessui": "^0.0.0",
     "jsvectormap": "^1.5.3",
+    "katex": "^0.16.11",
+    "mammoth": "^1.8.0",
     "match-sorter": "^6.3.1",
     "moment": "^2.30.1",
     "react": "^18.2.0",
@@ -34,6 +36,7 @@
     "zustand": "^4.5.4"
   },
   "devDependencies": {
+    "@types/katex": "^0.16.7",
     "@types/react": "^18.2.17",
     "@types/react-dom": "^18.2.7",
     "@types/react-lazy-load-image-component": "^1.6.4",

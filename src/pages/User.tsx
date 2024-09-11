@@ -50,7 +50,7 @@ interface UserDetailsItems {
 }
 
 const thead: IThead[] = [
-  { id: 1, name: 'Т/р' },
+  { id: 1, name: 'Т/Р' },
   { id: 2, name: 'Тўлиқ исм' },
   { id: 3, name: 'Категория' },
   { id: 4, name: 'Телефон' },
@@ -137,16 +137,10 @@ const User = () => {
 
   const onChange = (page: number): void => setCurrentPage(page - 1);
 
-  const statusN = (status: any) => {
-    if (status === 'WAITING') return 'Кутилмоқда';
-    else if (status === 'CANCELLED') return 'Бекор қилинди';
-    else if (status === 'APPROVED') return 'Тасдиқланди';
-  };
-
-  const statusColor = (status: any) => {
-    if (status === 'WAITING') return 'bg-yellow-300';
-    else if (status === 'CANCELLED') return 'bg-red-500';
-    else if (status === 'APPROVED') return 'bg-green-500';
+  const statusNameOrColor = (status: string): any => {
+    if (status === 'WAITING') return ['Кутилмоқда', 'bg-yellow-300'];
+    else if (status === 'CANCELLED') return ['Бекор қилинди', 'bg-red-500'];
+    else if (status === 'APPROVED') return ['Тасдиқланди', 'bg-green-500'];
   };
 
   const getItems = (user: any): MenuProps['items'] => [
@@ -234,7 +228,7 @@ const User = () => {
 
       <UniversalTable thead={thead}>
         {loading ? <PendingLoader /> : (
-          users ? users.map((user, index) => (
+          users ? users.map((user: IUser | any, index: number) => (
             <tr key={user.id}>
               <td className="border-b border-[#eee] py-5 px-5 dark:border-strokedark">
                 <h5 className="font-medium text-black dark:text-white">{(currentPage * 10) + index + 1}</h5>
@@ -250,15 +244,16 @@ const User = () => {
               </td>
               <td className="border-b border-[#eee] py-5 px-5 dark:border-strokedark">
                 <p className="text-black dark:text-white">
-                  {+calculateDaysDifference(moment(user.expiredDate).format('YYYY-MM-DD')) === 0
+                  {(+calculateDaysDifference(moment(user.expiredDate).format('YYYY-MM-DD')) <= 0)
                     ? 'Тестни ишлаш мумкин'
                     : `${calculateDaysDifference(moment(user.expiredDate).format('YYYY-MM-DD'))} кун қолди`
                   }
                 </p>
               </td>
               <td className="border-b border-[#eee] py-5 px-5 dark:border-strokedark">
-                <p className={`text-black dark:text-white py-1 rounded-xl text-center ${statusColor(user.status)}`}>
-                  {statusN(user.status)}
+                <p
+                  className={`text-black dark:text-white py-1 rounded-xl text-center ${statusNameOrColor(user.status)[1]}`}>
+                  {statusNameOrColor(user.status)[0]}
                 </p>
               </td>
               <td className="border-b border-[#eee] py-5 px-5 dark:border-strokedark">
@@ -318,8 +313,9 @@ const User = () => {
             {/*      <option value={item.id} key={item.id}>{item.name}</option>*/}
             {/*    )))}*/}
             {/*/>*/}
-            <p className={`text-center text-base lg:text-lg`}>Ростан хам бу фойдаланувчига қайтадан тест топширишга
-              рухсат бермоқчимисиз?</p>
+            <p className={`text-center text-base lg:text-lg`}>
+              Ростдан хам бу фойдаланувчига қайтадан тест топширишга рухсат бермоқчимисиз?
+            </p>
           </> : (<>
             <h2 className="text-center md:text-2xl py-5 font-semibold">
               {status === 'APPROVED' ? 'Натижани тасдиқламоқчимисиз' : 'Натижани бекор қилмоқчимисиз'}
@@ -328,7 +324,7 @@ const User = () => {
               <input
                 value={statusVal}
                 onChange={e => setStatusVal(e.target.value)}
-                placeholder="Амалий боҳони киритинг"
+                placeholder="Амалий баҳони киритинг"
                 className="w-full rounded-lg border border-stroke bg-transparent py-3 px-5 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark bg-white dark:text-form-input dark:focus:border-primary"
               />
             )}
@@ -368,7 +364,7 @@ const User = () => {
       {userDetails ? (
         <GlobalModal onClose={closeModal} isOpen={isModalOpen}>
           <div className="gap-3 ml-1 min-w-60 sm:min-w-96 lg:min-w-[35rem]">
-            <h2 className="lg:text-4xl  text-center md:text-2xl py-5 font-semibold">Фойдаланувчи натижалари</h2>
+            <h2 className="lg:text-3xl  text-center md:text-2xl py-5 font-semibold">Фойдаланувчи натижалари</h2>
             <div className="flex flex-col gap-3 md:text-xl lg:text-xl">
               <p className="flex justify-between">
                 <strong>Тўлиқ исм:</strong>
@@ -379,40 +375,37 @@ const User = () => {
                 <div className="text-blue-400">{userDetails.categoryName}</div>
               </p>
               <p className="flex justify-between">
-                <strong>Жавоблар:</strong>
-                <div className="text-blue-400">{userDetails.countAnswers}</div>
+                <strong>Натижа (жавоблар / саволлар):</strong>
+                <div className="text-blue-400"><span
+                  className={`text-green-500`}>{userDetails.correctAnswers}</span> / {userDetails.countAnswers}</div>
               </p>
               <p className="flex justify-between">
-                <strong>Тўғри Жавоблар:</strong>
-                <div className="text-blue-400">{userDetails.correctAnswers}</div>
+                <strong>Ишлаш давомийлиги:</strong>
+                <div className="text-blue-400">{userDetails.durationTime} (мин)</div>
               </p>
               <p className="flex justify-between">
-                <strong>Давомийлиги:</strong>
-                <div className="text-blue-400">{userDetails.durationTime}</div>
-              </p>
-              <p className="flex justify-between">
-                <strong>Ишланган вақти:</strong>
+                <strong>Ишлаган санаси:</strong>
                 <div className="text-blue-400">{moment(userDetails.createdAt.slice(0, 10)).format('DD/MM/YYYY')}</div>
               </p>
             </div>
             {userDetails && userDetails.extraResDtoList.length > 0 && (
               <div className={`border-t my-5`}>
-                <h2 className="lg:text-3xl md:text-xl font-semibold mt-3 mb-2">
+                <h2 className="lg:text-2xl md:text-xl font-semibold mt-3 mb-2 text-center">
                   Қўшимча Категориялардан ишланганлар
                 </h2>
                 {userDetails && userDetails.extraResDtoList.map((item: any, index: number) => (
                   <div className={`flex justify-between items-center gap-5 mb-2`} key={index}>
                     <p className={`text-base`}>{item.categoryName}</p>
-                    <p className={`font-bold`}><span
-                      className={`text-green-400`}>{item.correctAnswer}</span> / {item.countAnswer}</p>
+                    <p className={`font-bold`}>
+                      <span className={`text-green-400`}>{item.correctAnswer}</span> / {item.countAnswer}
+                    </p>
                   </div>
                 ))}
               </div>
             )}
           </div>
         </GlobalModal>
-      ) : (
-        (isModalOpen && !userDetails) && <PendingLoader />)}
+      ) : ((isModalOpen && !userDetails) && <PendingLoader />)}
     </>
   );
 };

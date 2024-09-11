@@ -38,9 +38,9 @@ export interface IUserDetails {
 }
 
 const thead: IThead[] = [
-  { id: 1, name: 'Т/р' },
+  { id: 1, name: 'Т/Р' },
   { id: 2, name: 'Исм' },
-  { id: 3, name: 'Фамелия' },
+  { id: 3, name: 'Фамилия' },
   { id: 4, name: 'Электрон почта' },
   // { id: 5, name: 'Тестга рухсат бериш' },
   { id: 6, name: 'Ҳаракат' }
@@ -58,19 +58,8 @@ const AllUser = () => {
   const [isDistrict, setIsDistrict] = useState('');
   const [isRegion, setIsRegion] = useState('');
 
-  useEffect(() => {
-    userAllList({
-      page: currentPage,
-      setTotalPage: setTotalPages,
-      setData: setUsers,
-      setLoading
-    });
-    getRegions(setRegion);
-    getDistrict(setDistrict);
-  }, []);
-
-  useEffect(() => {
-    userAllList({
+  const getAllUserFunction = async () => {
+    await userAllList({
       page: currentPage,
       setTotalPage: setTotalPages,
       setData: setUsers,
@@ -79,20 +68,22 @@ const AllUser = () => {
       regionId: isRegion ? isRegion : '',
       districtId: isDistrict ? isDistrict : ''
     });
+  };
+
+  useEffect(() => {
+    getAllUserFunction();
+    getRegions(setRegion);
+    getDistrict(setDistrict);
+  }, []);
+
+  useEffect(() => {
+    getAllUserFunction();
   }, [currentPage, isName, isRegion, isDistrict]);
 
   useEffect(() => {
     if (resData) {
       setResData(false);
-      userAllList({
-        page: currentPage,
-        setTotalPage: setTotalPages,
-        setData: setUsers,
-        setLoading,
-        name: isName ? isName : '',
-        regionId: isRegion ? isRegion : '',
-        districtId: isDistrict ? isDistrict : ''
-      });
+      getAllUserFunction();
     }
   }, [resData]);
 
@@ -100,7 +91,6 @@ const AllUser = () => {
 
   const openModal = async (item: any) => {
     setIsModalOpen(true);
-
     setLoading(true);
     try {
       const { data } = await axios.get(`${user_list}/${item.id}`, config);
@@ -126,12 +116,12 @@ const AllUser = () => {
       <div className={`w-full flex justify-between items-center flex-wrap md:flex-nowrap gap-5 mb-5`}>
         <input
           onChange={e => setIsName(e.target.value)}
-          placeholder="🔎  Қидирмоқ..."
+          placeholder="🔎  Фойдаланувчини қидириш..."
           type={`search`}
           className="w-full rounded-lg border border-stroke bg-transparent py-3 px-5 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark bg-white dark:text-form-input dark:focus:border-primary"
         />
         <Select
-          placeholder={`Вилоятни танлаш`}
+          placeholder={`Вилоятни танланг`}
           className={`w-full bg-transparent rounded-[10px] h-12`}
           allowClear
           onChange={(value) => setIsRegion(value)}
@@ -205,35 +195,36 @@ const AllUser = () => {
       {userDetails ? (
         <GlobalModal onClose={closeModal} isOpen={isModalOpen}>
           <div className="w-54 sm:w-64 md:w-96 lg:w-[40rem]">
-            <h2 className="lg:text-4xl  text-center md:text-2xl py-5 font-semibold">Фойдаланувчи малумотлари</h2>
+            <h2 className="lg:text-3xl  text-center md:text-2xl py-5 font-semibold">Фойдаланувчи маълумотлари</h2>
             <div className="flex flex-col gap-3 md:text-xl lg:text-xl">
               <p className="flex justify-between">
-                <strong>Тўлиқ исм:</strong>
+                <strong>Тўлиқ исми:</strong>
                 <div className="text-blue-400">{userDetails.firstName} {userDetails.lastName}</div>
               </p>
               <p className="flex justify-between">
-                <strong>Туғулган куни:</strong>
-                <div className="text-blue-400">{userDetails.dateOfBirth && moment(userDetails.dateOfBirth).format('DD.MM.YYYY')}</div>
+                <strong>Туғилган куни:</strong>
+                <div
+                  className="text-blue-400">{userDetails.dateOfBirth ? moment(userDetails.dateOfBirth).format('DD.MM.YYYY') : '-'}</div>
               </p>
               <p className="flex justify-between">
                 <strong>Телефон рақами:</strong>
-                <div className="text-blue-400">{userDetails.phoneNumber}</div>
+                <div className="text-blue-400">{userDetails.phoneNumber ? userDetails.phoneNumber : '-'}</div>
               </p>
               <p className="flex justify-between">
                 <strong>Электрон почтаси:</strong>
-                <div className="text-blue-400">{userDetails.email}</div>
+                <div className="text-blue-400">{userDetails.email ? userDetails.email : '-'}</div>
               </p>
               <p className="flex justify-between">
                 <strong>Вилояти:</strong>
-                <div className="text-blue-400">{userDetails.regionName}</div>
+                <div className="text-blue-400">{userDetails.regionName ? userDetails.regionName : '-'}</div>
               </p>
               <p className="flex justify-between">
                 <strong>Тумани:</strong>
-                <div className="text-blue-400">{userDetails.districtName}</div>
+                <div className="text-blue-400">{userDetails.districtName ? userDetails.districtName : '-'}</div>
               </p>
               <p className="flex justify-between">
                 <strong>Кўчаси:</strong>
-                <div className="text-blue-400">{userDetails.street}</div>
+                <div className="text-blue-400">{userDetails.street ? userDetails.street : '-'}</div>
               </p>
             </div>
           </div>

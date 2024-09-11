@@ -89,7 +89,7 @@ export const statusUpdate = async ({ status, ball, resultID, getUser, close }: {
     } else {
       getUser();
       close();
-      toast.error(`Нимадур хатолик юз берди`);
+      toast.error(`Нимадир хатолик юз берди`);
     }
   } catch (err) {
     close();
@@ -114,10 +114,10 @@ export const backTestEditDate = async ({ userId, categoryId, closeModal, fetchDa
     } else {
       fetchData();
       closeModal();
-      toast.error(`Нимадур хатолик юз берди`);
+      toast.error(`Нимадир хатолик юз берди`);
     }
   } catch (err) {
-    toast.error(`Нимадур хатолик юз берди`);
+    toast.error(`Нимадир хатолик юз берди`);
     closeModal();
     consoleClear();
   }

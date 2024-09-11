@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import lightLogo from '../../images/logo/geodeziya_light.png';
-import darkLogo from '../../images/logo/geodeziya_dark.png';
+import logo from '../../images/logo/Sfer 1.png';
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -11,7 +10,6 @@ interface SidebarProps {
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const location = useLocation();
   const { pathname } = location;
-  const role = localStorage.getItem('ROLE');
 
   const trigger = useRef<any>(null);
   const sidebar = useRef<any>(null);
@@ -43,22 +41,20 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   });
 
   const styles = {
-    sidebar: 'group relative shadow-sideBarShadow flex items-center gap-2.5 rounded-sm py-3 px-4 my-1 font-medium text-graydark dark:text-bodydark1 duration-300 ease-in-out hover:bg-slate-300 dark:hover:bg-graydark dark:hover:bg-meta-4'
+    sidebar: 'group relative shadow-sideBarShadow flex items-center gap-2.5 rounded-lg py-3 px-4 my-1 font-medium text-white duration-300 ease-in-out'
   };
 
   return (
     <aside
       ref={sidebar}
-      className={`absolute left-0 top-0 z-999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-white duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
-        sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-      }`}
+      className={`absolute left-0 top-0 z-20 flex h-screen w-72.5 flex-col overflow-y-hidden bg-[#6A9C89] duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
     >
       {/* <!-- SIDEBAR HEADER --> */}
       <div className="flex justify-start items-center gap-2 px-6 pb-5.5 lg:pb-6.5">
         <NavLink to="/">
-          <div className={`flex justify-start items-center w-full px-4 lg:px-6`}>
-            <img src={darkLogo} alt="logo" className={`w-full h-20 scale-[2.5] dark:inline hidden`} />
-            <img src={lightLogo} alt="logo" className={`w-full h-20 scale-[2.5] dark:hidden inline`} />
+          <div className={`flex justify-start items-center w-full px-4 pt-5 lg:px-6`}>
+            <img src={logo} alt="logo" className={`w-full`} />
           </div>
         </NavLink>
 
@@ -93,104 +89,27 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           {/* <!-- Menu Group --> */}
           <div>
             <ul className="mb-6 flex flex-col gap-1.5">
-              {/* <!-- Menu Item Dashboard ADMIN or SUPER_ADMIN --> */}
-              {role === 'ROLE_SUPER_ADMIN' && (
+              <>
                 <li>
                   <NavLink
-                    to="/dashboard"
-                    className={`${styles.sidebar} ${pathname.includes('dashboard') && 'bg-slate-200 dark:bg-graydark dark:bg-meta-4'}`}
+                    to="/client/dashboard"
+                    className={`${styles.sidebar} ${pathname === '/client/dashboard' && 'bg-[#16423C] dark:bg-meta-4'}`}
                   >
-                    Бошқарув панели
+                    Hатижалар
                   </NavLink>
                 </li>
-              )}
-
-              {(role === 'ROLE_TESTER' || role === 'ROLE_SUPER_ADMIN') && (
-                <>
-                  {/* <!-- Menu Item Category --> */}
-                  <li>
-                    <NavLink
-                      to="/category"
-                      className={`${styles.sidebar} ${pathname.includes('category') && 'bg-slate-200 dark:bg-graydark dark:bg-meta-4'}`}
-                    >
-                      Категория
-                    </NavLink>
-                  </li>
-
-                  {/* <!-- Menu Item Test --> */}
-                  <li>
-                    <NavLink
-                      to="/test"
-                      className={`${styles.sidebar} ${pathname.includes('test') && 'bg-slate-200 dark:bg-graydark dark:bg-meta-4'}`}
-                    >
-                      Тест
-                    </NavLink>
-                  </li>
-                </>
-              )}
-
-              {role === 'ROLE_SUPER_ADMIN' && (
-                <>
-                  <li>
-                    <NavLink
-                      to="/all-user"
-                      className={`${styles.sidebar} ${pathname === '/all-user' && 'bg-slate-200 dark:bg-graydark dark:bg-meta-4'}`}
-                    >
-                      Фойдаланувчилар
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink
-                      to="/user"
-                      className={`${styles.sidebar} ${pathname === '/user' && 'bg-slate-200 dark:bg-graydark dark:bg-meta-4'}`}
-                    >
-                      Фойдаланувчилар натижаси
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink
-                      to="/employees"
-                      className={`${styles.sidebar} ${pathname.includes('employees') && 'bg-slate-200 dark:bg-graydark dark:bg-meta-4'}`}
-                    >
-                      Ходимлар
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink
-                      to="/address"
-                      className={`${styles.sidebar} ${pathname === '/address' && 'bg-slate-200 dark:bg-graydark dark:bg-meta-4'}`}
-                    >
-                      Манзил
-                    </NavLink>
-                  </li>
-                </>
-              )}
-
-              {/*CLIENT Menu item*/}
-              {role === 'ROLE_CLIENT' && (
-                <>
-                  <li>
-                    <NavLink
-                      to="/client/dashboard"
-                      className={`${styles.sidebar} ${pathname === '/client/dashboard' && 'bg-slate-200 dark:bg-graydark dark:bg-meta-4'}`}
-                    >
-                      Бошқарув панели
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink
-                      to="/client/test/start"
-                      className={`${styles.sidebar} ${pathname === '/client/test/start' && 'bg-slate-200 dark:bg-graydark dark:bg-meta-4'}`}
-                    >
-                      Тест
-                    </NavLink>
-                  </li>
-                </>
-              )}
+                <li>
+                  <NavLink
+                    to="/client/test/start"
+                    className={`${styles.sidebar} ${pathname === '/client/test/start' && 'bg-[#16423C] dark:bg-meta-4'}`}
+                  >
+                    Йўналишлар
+                  </NavLink>
+                </li>
+              </>
             </ul>
           </div>
         </nav>
-        {/* <!-- Sidebar Menu --> */}
       </div>
     </aside>
   );

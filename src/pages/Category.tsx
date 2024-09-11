@@ -15,7 +15,7 @@ import SelectForm from '../components/select/Select.tsx';
 import { api_videos_files } from '../common/api/api.tsx';
 import image from '../images/default.png';
 import ImageUpload from '../components/img-upload.tsx';
-import { Pagination } from 'antd';
+import { Pagination, Popover } from 'antd';
 import PendingLoader from '../common/Loader/pending-loader.tsx';
 import toast from 'react-hot-toast';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
@@ -24,20 +24,20 @@ import { unReload } from '../common/privacy-features/privacy-features.tsx';
 import ImageModal from '../components/modal/image-modal.tsx';
 
 const thead: IThead[] = [
-  { id: 1, name: 'Т/р' },
+  { id: 1, name: 'Т/Р' },
   { id: 2, name: 'Категория расми' },
   { id: 3, name: 'Категория номи' },
-  { id: 4, name: 'Тавсиф' },
+  { id: 4, name: 'Тавсифи' },
   { id: 5, name: 'Саволлар сони' },
   // { id: 6, name: 'Қийин саволлар сони' },
   // { id: 7, name: 'Урта саволлар сони' },
   // { id: 8, name: 'Осон саволлар сони' },
   { id: 9, name: 'Қўшимча саволлар сони' },
-  { id: 10, name: 'Давомийлик вақти' },
+  { id: 10, name: 'Давомийлик вақти (м)' },
   { id: 11, name: 'Қайта қабул қилиш санаси' },
   { id: 12, name: 'Яратган' },
-  { id: 13, name: 'Категория холати' },
-  { id: 14, name: 'Учирган' },
+  { id: 13, name: 'Категория ҳолати' },
+  { id: 14, name: 'Ўчирган' },
   { id: 15, name: 'Ҳаракат' }
 ];
 
@@ -145,7 +145,10 @@ const Category = () => {
         />
       </div>
       <UniversalTable thead={thead}>
-        {isLoading ? <PendingLoader /> : (
+        {isLoading ? <>
+          <PendingLoader />
+          <tr><td colSpan={thead.length} className="border-b border-[#eee] p-5 dark:border-strokedark text-center">Категория юкланмоқда...</td></tr>
+        </> : (
           categoryData ? (
             categoryData.map((item: CategoryList | any, i) => (
               <tr key={i}>
@@ -181,9 +184,16 @@ const Category = () => {
                     {item.name}
                   </p>
                 </td>
-                <td className="border-b border-[#eee] p-5 dark:border-strokedark max-w-[400px]">
+                <td className="border-b border-[#eee] p-5 dark:border-strokedark min-w-[300px]">
                   <p className="text-black dark:text-white">
-                    {item.description}
+                    {item.description.length > 100 ? <>
+                      <Popover
+                        title={item.description}
+                        overlayStyle={{ width: '50%' }}
+                      >
+                        {`${item.description.slice(0, 100)}...`}
+                      </Popover>
+                    </> : item.description}
                   </p>
                 </td>
                 <td className="border-b border-[#eee] min-w-[200px] p-5 dark:border-strokedark">
@@ -301,7 +311,7 @@ const Category = () => {
                 defOption={`Категория турини танланг`}
                 child={<>
                   <option value="true">Асосий категория</option>
-                  <option value="false">Асосий булмаган категория</option>
+                  <option value="false">Асосий бўлмаган категория</option>
                 </>}
               />
             </div>
@@ -317,7 +327,7 @@ const Category = () => {
               />
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700 mb-2" htmlFor="description">Тавсиф</label>
+              <label className="block text-gray-700 mb-2" htmlFor="description">Тавсифи</label>
               <input
                 required
                 value={addValue?.description}
@@ -386,7 +396,7 @@ const Category = () => {
                   />
                 </div>
                 <div className="mb-4">
-                  <label className="block text-gray-700 mb-2" htmlFor="durationTime">Давомийлик вақти</label>
+                  <label className="block text-gray-700 mb-2" htmlFor="durationTime">Давомийлик вақти (м)</label>
                   <input
                     required
                     value={addValue?.durationTime}
@@ -428,7 +438,7 @@ const Category = () => {
       {/*delete modal*/}
       <GlobalModal onClose={closeModalDelete} isOpen={isModalDelete}>
         <div className={`w-54 sm:w-64 md:w-96 lg:w-[40rem]`}>
-          <p className={`my-7 text-center font-semibold`}>Категорияни оʻчириб ташламоқчимисиз?</p>
+          <p className={`my-7 text-center font-semibold`}>Категорияни ўчириб ташламоқчимисиз?</p>
           <div className={`flex justify-end items-center gap-5 mt-5`}>
             <AddButtons children={`Ёпиш`} onClick={closeModalDelete} />
             <AddButtons

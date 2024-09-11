@@ -31,10 +31,11 @@ export interface CategorySelectList {
 }
 
 export interface CategoryClientList {
-  id: string;
-  retakeDate: number;
-  fileId: number;
-  duration: number;
-  name: string;
-  questionCount: number;
+  id: number,
+  name: string,
+  description: string,
+  countQuiz: number,
+  durationTime: number,
+  categoryEnum: string,
+  active: boolean
 }

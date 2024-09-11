@@ -20,13 +20,14 @@ import { CategoryList } from '../types/category.ts';
 import CheckboxTest from '../components/Checkboxes/CheckboxTest.tsx';
 import { FaCheck } from 'react-icons/fa';
 import { unReload } from '../common/privacy-features/privacy-features.tsx';
+import MathFormula from '../components/math-formula.tsx';
 
 const thead: IThead[] = [
-  { id: 1, name: 'Т/р' },
+  { id: 1, name: 'Т/Р' },
   { id: 2, name: 'Савол' },
   { id: 3, name: 'Категория номи' },
-  { id: 4, name: 'Тури' },
-  // { id: 5, name: 'Балл' },
+  { id: 4, name: 'Савол тури' },
+  { id: 5, name: 'Қийинлик даражаси' },
   { id: 6, name: 'Яратган одам' },
   { id: 7, name: 'Ҳаракат' }
 ];
@@ -51,7 +52,7 @@ const Test = () => {
     categoryId: '',
     difficulty: '',
     type: '',
-    // score: '',
+    finiteError: 0,
     attachmentIds: [],
     optionDtos: optionDto,
     isMain: false
@@ -65,7 +66,7 @@ const Test = () => {
     categoryId: '',
     difficulty: '',
     type: '',
-    // score: '',
+    finiteError: 0,
     attachmentIds: [],
     optionDtos: null,
     isMain: false
@@ -74,17 +75,13 @@ const Test = () => {
   useEffect(() => {
     getAdminCategory(setCategoryData);
     allFilterOrGet(setTestList, page, setTotalPage, setIsLoading);
-    consoleClear();
     unReload();
+    consoleClear();
   }, []);
 
   useEffect(() => {
-    allFilterOrGet(setTestList, page, setTotalPage, setIsLoading);
-    consoleClear();
-  }, [page]);
-
-  useEffect(() => {
     allFilterOrGet(setTestList, page, setTotalPage, setIsLoading, nameFilter && nameFilter, categoryFilter && categoryFilter, typeFilter && typeFilter);
+    consoleClear();
   }, [nameFilter, categoryFilter, typeFilter, page]);
 
   useEffect(() => {
@@ -145,6 +142,12 @@ const Test = () => {
     else if (type === 'ANY_CORRECT') return 'Ҳар қандай тўғри';
   };
 
+  const difficultyTranslate = (type: string) => {
+    if (type === 'EASY') return 'Осон';
+    else if (type === 'MEDIUM') return 'Ўрта';
+    else if (type === 'HARD') return 'Қийин';
+  };
+
   const handleCheckboxChange = (id: any, checked: boolean) => {
     if (checked) setSelectedIds((prevSelectedIds) => [...prevSelectedIds, id]);
     else setSelectedIds((prevSelectedIds) => prevSelectedIds.filter(selectedId => selectedId !== id));
@@ -169,12 +172,12 @@ const Test = () => {
           className={`w-full lg:max-w-[60%] flex justify-start xl:justify-between items-center flex-wrap md:flex-nowrap gap-5`}>
           <input
             onChange={e => setNameFilter(e.target.value)}
-            placeholder="🔎  Қидирмоқ..."
+            placeholder="🔎  Тестни қидириш..."
             type={`search`}
             className="w-full rounded-lg border border-stroke bg-transparent py-3 px-5 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark bg-white dark:text-form-input dark:focus:border-primary"
           />
           <Select
-            placeholder={`Категория танлаш`}
+            placeholder={`Категорияни танланг`}
             className={`w-full bg-transparent rounded-[10px] h-12`}
             allowClear
             onChange={(value) => setCategoryFilter(value)}
@@ -190,10 +193,10 @@ const Test = () => {
             allowClear
             onChange={(value) => setTypeFilter(value)}
           >
-            <Option value="SUM">Ҳисобланган натижа</Option>
-            <Option value="ONE_CHOICE">Бир тўғри жавобли тест</Option>
-            <Option value="MANY_CHOICE">Кўп тўғри жавобли тест</Option>
-            <Option value="ANY_CORRECT">Ҳар қандай тўғри</Option>
+            <Option value="SUM">{typeTranslate('SUM')}</Option>
+            <Option value="ONE_CHOICE">{typeTranslate('ONE_CHOICE')}</Option>
+            <Option value="MANY_CHOICE">{typeTranslate('MANY_CHOICE')}</Option>
+            <Option value="ANY_CORRECT">{typeTranslate('ANY_CORRECT')}</Option>
           </Select>
         </div>
       </div>
@@ -204,7 +207,7 @@ const Test = () => {
             className="border-b border-[#eee] py-5 px-4 dark:border-strokedark text-center font-bold"
             colSpan={thead.length}
           >
-            юкланмоқда...
+            Тестлар юкланмоқда...
           </td>
         </tr> : (
           testList ? (
@@ -215,16 +218,17 @@ const Test = () => {
                     {(+page * 10) + idx + 1}
                   </h5>
                 </td>
-                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark min-w-[300px]">
+                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark min-w-[400px]">
                   <p className="text-black dark:text-white">
-                    {item.name.length > 100 ? <>
-                      <Popover
-                        title={item.name}
-                        overlayStyle={{ width: '70%' }}
-                      >
-                        {`${item.name.slice(0, 100)}...`}
-                      </Popover>
-                    </> : item.name}
+                    <MathFormula text={item.name} />
+                    {/*{item.name.length > 100 ? <>*/}
+                    {/*  <Popover*/}
+                    {/*    title={item.name}*/}
+                    {/*    overlayStyle={{ width: '50%' }}*/}
+                    {/*  >*/}
+                    {/*    {`${item.name.slice(0, 100)}...`}*/}
+                    {/*  </Popover>*/}
+                    {/*</> : item.name}*/}
                   </p>
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
@@ -248,6 +252,11 @@ const Test = () => {
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <p className="text-black dark:text-white">
                     {typeTranslate(item.type)}
+                  </p>
+                </td>
+                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                  <p className="text-black dark:text-white">
+                    {difficultyTranslate(item.difficulty)}
                   </p>
                 </td>
                 {/*<td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">*/}
@@ -332,7 +341,7 @@ const Test = () => {
                 <SelectForm
                   val={`${crudTest.categoryId}`}
                   onChange={e => handleChange('categoryId', e.target.value)}
-                  defOption={`Категория танлаш`}
+                  defOption={`Категорияни танланг`}
                   child={categoryData && (
                     categoryData.map((item: CategoryList | any) => (
                       <option value={item.id} key={item.id}>{item.name}</option>
@@ -343,9 +352,9 @@ const Test = () => {
                   onChange={e => handleChange('difficulty', e.target.value)}
                   defOption={`Қийинлик даражасини танланг`}
                   child={<>
-                    <option value="HARD">Қийин</option>
-                    <option value="MEDIUM">Урта</option>
-                    <option value="EASY">Осон</option>
+                    <option value="HARD">{difficultyTranslate('HARD')}</option>
+                    <option value="MEDIUM">{difficultyTranslate('MEDIUM')}</option>
+                    <option value="EASY">{difficultyTranslate('EASY')}</option>
                   </>}
                 />
                 <SelectForm
@@ -357,20 +366,32 @@ const Test = () => {
                   }}
                   defOption={`Турни танланг`}
                   child={<>
-                    <option value="SUM">Ҳисобланган натижа</option>
-                    <option value="ONE_CHOICE">Бир тўғри жавобли тест</option>
-                    <option value="MANY_CHOICE">Кўп тўғри жавобли тест</option>
-                    {categoryMain.main && <option value="ANY_CORRECT">Ҳар қандай тўғри</option>}
+                    <option value="SUM">{typeTranslate('SUM')}</option>
+                    <option value="ONE_CHOICE">{typeTranslate('ONE_CHOICE')}</option>
+                    <option value="MANY_CHOICE">{typeTranslate('MANY_CHOICE')}</option>
+                    {categoryMain.main && <option value="ANY_CORRECT">{typeTranslate('ANY_CORRECT')}</option>}
                   </>}
                 />
               </div>
               <p className={`text-center mt-4`}>
-                {editOrDeleteStatus === 'put' && 'Вариантларни узгартирсангиз булади'}
+                {editOrDeleteStatus === 'put' && 'Вариантларни ўзгартирсангиз булади'}
               </p>
               {editOrDeleteStatus === 'put' ? (
                 <TestCrudCheck type={crudTest.type ? crudTest.type : testType} defQues={defQuiz} />
               ) : (
                 <TestCrudCheck type={categoryMain.main ? 'ANY_CORRECT' : crudTest.type ? crudTest.type : testType} />
+              )}
+              {(crudTest.type ? crudTest.type === 'SUM' : testType === 'SUM') && (
+                <div className={`flex items-center`}>
+                  <span className={`flex justify-center items-center py-1 px-5 mt-3 rounded-l-lg border border-r-0 border-stroke text-2xl`}>±</span>
+                  <input
+                    type="number"
+                    value={crudTest.finiteError}
+                    onChange={e => handleChange('finiteError', e.target.value)}
+                    placeholder="Чекли хатолик оралиғини киритинг рақамда"
+                    className="w-full rounded-r-lg border border-stroke bg-transparent py-2 px-5 mt-3 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                  />
+                </div>
               )}
               <div className={`flex justify-center items-center mt-10`}>
                 <ImageUpload />
@@ -405,7 +426,7 @@ const Test = () => {
           <SelectForm
             val={transferCategoryID}
             onChange={e => setTransferCategoryID(e.target.value)}
-            defOption={`Категория танлаш`}
+            defOption={`Категорияни танланг`}
             child={categoryData && categoryData.map((item: CategoryList | any) => (
               <option value={item.id} key={item.id}>{item.name}</option>
             ))}

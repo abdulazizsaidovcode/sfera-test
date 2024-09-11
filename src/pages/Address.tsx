@@ -1,27 +1,36 @@
-import { useEffect } from "react"
-import useAddressStore from "../common/state-management/address"
-import { addDistrict, addRegion, deleteDistrict, deleteRegion, getDistrics, getRegions, updateDistrict, updateRegion } from "../common/logic-functions/address";
-import globalStore from "../common/state-management/globalStore";
-import Breadcrumb from "../components/Breadcrumbs/Breadcrumb";
-import PendingLoader from "../common/Loader/pending-loader";
-import UniversalTable, { IThead } from "../components/Tables/UniversalTable";
-import { MdDelete, MdEdit, MdOutlineAddCircle } from "react-icons/md";
-import AddButtons from "../components/buttons/buttons";
-import GlobalModal from "../components/modal/modal";
-import SelectForm from "../components/select/Select";
+import { useEffect } from 'react';
+import useAddressStore from '../common/state-management/address';
+import {
+  addDistrict,
+  addRegion,
+  deleteDistrict,
+  deleteRegion,
+  getDistrics,
+  getRegions,
+  updateDistrict,
+  updateRegion
+} from '../common/logic-functions/address';
+import globalStore from '../common/state-management/globalStore';
+import Breadcrumb from '../components/Breadcrumbs/Breadcrumb';
+import PendingLoader from '../common/Loader/pending-loader';
+import UniversalTable, { IThead } from '../components/Tables/UniversalTable';
+import { MdDelete, MdEdit, MdOutlineAddCircle } from 'react-icons/md';
+import AddButtons from '../components/buttons/buttons';
+import GlobalModal from '../components/modal/modal';
+import SelectForm from '../components/select/Select';
 import { unReload } from '../common/privacy-features/privacy-features.tsx';
 
 const regionsThead: IThead[] = [
-  { id: 1, name: 'Т/р' },
-  { id: 3, name: 'Номи' },
-  { id: 4, name: 'Ҳаракат' },
+  { id: 1, name: 'Т/Р' },
+  { id: 3, name: 'Вилоят номи' },
+  { id: 4, name: 'Ҳаракат' }
 ];
 
 const districstsThead: IThead[] = [
-  { id: 1, name: 'Т/р' },
-  { id: 3, name: 'Номи' },
+  { id: 1, name: 'Т/Р' },
+  { id: 3, name: 'Туман номи' },
   { id: 3, name: 'Вилоят номи' },
-  { id: 4, name: 'Ҳаракат' },
+  { id: 4, name: 'Ҳаракат' }
 ];
 
 const styles = {
@@ -53,61 +62,64 @@ const Address = () => {
     regionId,
     setRegionId
   } = useAddressStore();
-  const { isLoading, setIsLoading } = globalStore()
+  const { isLoading, setIsLoading } = globalStore();
 
   useEffect(() => {
-    unReload()
+    unReload();
   }, []);
 
   useEffect(() => {
-    getRegions(setRegions, setIsLoading)
+    getRegions(setRegions, setIsLoading);
   }, [setRegions]);
 
   useEffect(() => {
-    getDistrics(setDistrics, setIsLoading)
+    getDistrics(setDistrics, setIsLoading);
   }, [setDistrics]);
 
   const toggleRegionModal = () => {
-    setIsRegionModal(!isRegionModal)
-    setName('')
-    setId(0)
+    setIsRegionModal(!isRegionModal);
+    setName('');
+    setId(0);
   };
+
   const toggleDeleteRegionModal = () => {
-    setIsDeleteRegionModal(!isDeleteRegionModal)
-    setName('')
-    setId(0)
+    setIsDeleteRegionModal(!isDeleteRegionModal);
+    setName('');
+    setId(0);
   };
+
   const toggleEditRegionModal = () => {
-    setName('')
-    setId(0)
-    setIsEditRegionModal(!isEditRegionModal)
+    setName('');
+    setId(0);
+    setIsEditRegionModal(!isEditRegionModal);
   };
+
   const toggleDistrictModal = () => {
-    setIsDistrictModal(!isDistrictModal)
-    setName('')
-    setId(0)
+    setIsDistrictModal(!isDistrictModal);
+    setName('');
+    setId(0);
   };
+
   const toggleDeleteDistricModal = () => {
-    setIsDeleteDistricModal(!isDeleteDistricModal)
-    setName('')
-    setId(0)
+    setIsDeleteDistricModal(!isDeleteDistricModal);
+    setName('');
+    setId(0);
   };
+
   const toggleEditDistricModal = () => {
-    setName('')
-    setId(0)
-    setIsEditDistrictModal(!isEditDistrictModal)
+    setName('');
+    setId(0);
+    setIsEditDistrictModal(!isEditDistrictModal);
   };
 
   return (
     <>
       <div>
-        <Breadcrumb pageName="Манзилар" />
+        <Breadcrumb pageName="Манзиллар" />
         {isLoading && <PendingLoader />}
         <div>
           <div className="flex justify-between items-center">
-            <div>
-              <p className="text-black text-2xl dark:text-white">Вилоятлар</p>
-            </div>
+            <div><p className="text-black text-2xl dark:text-white">Вилоятлар</p></div>
             <div className={`my-5`}>
               <AddButtons
                 onClick={toggleRegionModal}
@@ -130,43 +142,42 @@ const Address = () => {
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <div className="flex items-center space-x-3.5">
                     <button className="hover:text-yellow-500">
-                      <MdEdit className={`text-2xl duration-300`}
+                      <MdEdit
+                        className={`text-2xl duration-300`}
                         onClick={() => {
-                          toggleEditRegionModal()
+                          toggleEditRegionModal();
                           setId(item.id);
-                          setName(item.name)
-                        }} />
+                          setName(item.name);
+                        }}
+                      />
                     </button>
                     <button className="hover:text-red-600">
-                      <MdDelete className={`text-2xl duration-300`}
+                      <MdDelete
+                        className={`text-2xl duration-300`}
                         onClick={() => {
-                          toggleDeleteRegionModal()
-                          setId(item.id)
+                          toggleDeleteRegionModal();
+                          setId(item.id);
                         }}
                       />
                     </button>
                   </div>
                 </td>
               </tr>
-            )) : (
-              <>
-                <tr>
-                  <td
-                    colSpan={districstsThead.length}
-                    className="border-b border-[#eee] py-5 px-4 dark:border-strokedark text-center"
-                  >
-                    Вилоятлар мавжуд эмас
-                  </td>
-                </tr>
-              </>
-            )}
+            )) : (<>
+              <tr>
+                <td
+                  colSpan={districstsThead.length}
+                  className="border-b border-[#eee] py-5 px-4 dark:border-strokedark text-center"
+                >
+                  Вилоятлар мавжуд эмас
+                </td>
+              </tr>
+            </>)}
           </UniversalTable>
         </div>
         <div>
           <div className="flex justify-between items-center">
-            <div>
-              <p className="text-black text-2xl dark:text-white">Туманлар</p>
-            </div>
+            <div><p className="text-black text-2xl dark:text-white">Туманлар</p></div>
             <div className={`my-5`}>
               <AddButtons
                 onClick={toggleDistrictModal}
@@ -192,37 +203,38 @@ const Address = () => {
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <div className="flex items-center space-x-3.5">
                     <button className="hover:text-yellow-500">
-                      <MdEdit className={`text-2xl duration-300`}
+                      <MdEdit
+                        className={`text-2xl duration-300`}
                         onClick={() => {
-                          toggleEditDistricModal()
+                          toggleEditDistricModal();
                           setId(item.id);
-                          setRegionId(item.regionId)
-                          setName(item.name)
-                        }} />                    </button>
+                          setRegionId(item.regionId);
+                          setName(item.name);
+                        }}
+                      />
+                    </button>
                     <button className="hover:text-red-600">
-                      <MdDelete className={`text-2xl duration-300`}
+                      <MdDelete
+                        className={`text-2xl duration-300`}
                         onClick={() => {
-                          toggleDeleteDistricModal()
-                          setId(item.id)
+                          toggleDeleteDistricModal();
+                          setId(item.id);
                         }}
                       />
                     </button>
                   </div>
                 </td>
               </tr>
-
-            )) : (
-              <>
-                <tr>
-                  <td
-                    colSpan={districstsThead.length}
-                    className="border-b border-[#eee] py-5 px-4 dark:border-strokedark text-center"
-                  >
-                    Туманлар мавжуд эмас
-                  </td>
-                </tr>
-              </>
-            )}
+            )) : (<>
+              <tr>
+                <td
+                  colSpan={districstsThead.length}
+                  className="border-b border-[#eee] py-5 px-4 dark:border-strokedark text-center"
+                >
+                  Туманлар мавжуд эмас
+                </td>
+              </tr>
+            </>)}
           </UniversalTable>
         </div>
         <GlobalModal isOpen={isRegionModal} onClose={toggleRegionModal}>
@@ -307,7 +319,6 @@ const Address = () => {
                 id="lastname"
                 placeholder="Туман номини киритинг"
               />
-
             </div>
             <div className={`flex justify-end items-center gap-5`}>
               <AddButtons children={`Ёпиш`} onClick={toggleRegionModal} />
@@ -322,7 +333,7 @@ const Address = () => {
         </GlobalModal>
         <GlobalModal onClose={toggleDeleteDistricModal} isOpen={isDeleteDistricModal}>
           <div className={`w-54 sm:w-64 md:w-96 lg:w-[40rem]`}>
-            <p className="text-black dark:text-white text-xl text-center my-3">Сиз аниқ бу тумани ўчирмоқчимисиз</p>
+            <p className="text-black dark:text-white text-xl text-center my-3">Сиз аниқ бу туманни ўчирмоқчимисиз</p>
             <div className={`flex justify-end items-center gap-5 mt-5`}>
               <AddButtons children={`Ёпиш`} onClick={toggleDeleteDistricModal} />
               <AddButtons
@@ -357,7 +368,6 @@ const Address = () => {
                 value={name}
                 placeholder="Туман номини киритинг"
               />
-
             </div>
             <div className={`flex justify-end items-center gap-5`}>
               <AddButtons children={`Ёпиш`} onClick={toggleEditDistricModal} />
@@ -372,7 +382,7 @@ const Address = () => {
         </GlobalModal>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Address
+export default Address;

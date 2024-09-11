@@ -1,7 +1,6 @@
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import CheckboxFive from '../../components/Checkboxes/CheckboxFive';
 import CheckboxGender from '../../components/Checkboxes/CheckboxGender.tsx';
-import CheckboxThree from '../../components/Checkboxes/CheckboxThree';
 import SwitcherFour from '../../components/Switchers/SwitcherFour';
 import SwitcherOne from '../../components/Switchers/SwitcherOne';
 import SwitcherTwo from '../../components/Switchers/SwitcherTwo';
@@ -172,7 +171,6 @@ const FormElements = () => {
               </h3>
             </div>
             <div className="flex flex-col gap-5.5 p-6.5">
-              <CheckboxThree />
               <CheckboxGender />
               <CheckboxFive />
             </div>

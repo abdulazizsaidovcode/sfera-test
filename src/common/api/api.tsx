@@ -43,7 +43,7 @@ export const question_transfer: string = `${base_url}question/categoryUpdate`; /
 export const category_all: string = `${base_url}category`; // all catygory client and admin get save update qilish uchun
 export const category_admin: string = `${base_url}category/list`; // all catygory client and admin get save update qilish uchun
 export const category_admin_page: string = `${base_url}category/page`; // all catygory client and admin get save update qilish uchun
-export const category_MAIN: string = `${base_url}category/main`; // Admin catycoryning asosiy savolarini get qilishi uchun
+// export const category_MAIN: string = `${base_url}category/main`; // Admin catycoryning asosiy savolarini get qilishi uchun
 
 //================AUTH CONTROLLER======================
 export const auth_reset_password: string = `${base_url}auth/reset-password`; //parolni qayta tiklash
@@ -55,18 +55,18 @@ export const auth_login: string = `${base_url}auth/login`; //login
 //================VIDEO UPLOAD CONTROLLER====================== 
 export const api_videos_upload: string = `${base_url}api/videos/upload`; // Video apload qilish admin busa kere
 export const api_videos_files: string = `${base_url}api/videos/files/`; // video get qilish client uchun busa kerak
-export const api_videos_files_update: string = `${base_url}api/videos/update/`; // video update qilish c
-export const api_videos_delete: string = `${base_url}api/videos/delete/`; // video delete qilish Id bilan
+// export const api_videos_files_update: string = `${base_url}api/videos/update/`; // video update qilish c
+// export const api_videos_delete: string = `${base_url}api/videos/delete/`; // video delete qilish Id bilan
 
 //================QUIZ CONTROLLER======================
 export const quiz_pass: string = `${base_url}quiz/pass`; // Client Testni Submit qilishi uchun
-export const quiz_start: string = `${base_url}quiz/start/`; // Client Testni Boshlash uchun qilishi uchun
+export const    quiz_start: string = `${base_url}test/start`; // Client Testni Boshlash uchun qilishi uchun
 
 //================CERTIFICATE CONTROLLER======================
 export const get_certificate_id: string = `${base_url}certificate/certificate-get`; // Client result olishi uchun
 export const get_certificate: string = `${base_url}api/videos/files`; // Client result olishi uchun
 export const certificate: string = `${base_url}certificate`; // Client result olishi uchun
-
+ц
 //================USER PROFILE====================== 
 export const user_profile: string = `${base_url}user/profile`; // Client ma'lumotlari
 export const user_profile_update: string = `${base_url}user/update/`; // Client ma'lumotlari

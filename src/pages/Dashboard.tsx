@@ -20,11 +20,11 @@ import globalStore from '../common/state-management/globalStore.tsx';
 import { CategoryList } from '../types/category.ts';
 
 const thead: IThead[] = [
-  { id: 1, name: 'Т/р' },
+  { id: 1, name: 'Т/Р' },
   { id: 2, name: 'Исм' },
   { id: 3, name: 'Фамилия' },
   { id: 4, name: 'Категория номи' },
-  { id: 5, name: 'Тўғри Жавоблар' }
+  { id: 5, name: 'Натижа (Тўғри жавоблар/Умумий саволлар)' }
 ];
 const { Option } = Select;
 
@@ -80,7 +80,7 @@ const Dashboard: React.FC = () => {
         <div className={`w-full flex justify-between items-center flex-wrap md:flex-nowrap gap-5 mb-4`}>
           {categoryData && (
             <Select
-              placeholder={`Категория танланг`}
+              placeholder={`Категорияни танланг`}
               value={categoryID}
               className={`w-full bg-transparent rounded-[10px] h-10`}
               allowClear

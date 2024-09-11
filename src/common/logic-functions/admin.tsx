@@ -12,13 +12,13 @@ export const adminIsActive = async (id: number | string, setData: (val: AdminDat
     const { data } = await axios.put(`${adminIsActives}${id}`, '', config);
     if (data.success) {
       await getAdminLists(setData, setLoading, page, setTotalPage);
-      toast.success('Узгариш муваффақиятли бажарилди');
+      toast.success('Ўзгариш муваффақиятли бажарилди');
     } else {
-      toast.error('Нимадур хатолик юз берди');
+      toast.error('Нимадир хатолик юз берди');
       consoleClear();
     }
   } catch (err) {
-    toast.error('Нимадур хатолик юз берди');
+    toast.error('Нимадир хатолик юз берди');
     consoleClear();
   }
 };
@@ -47,24 +47,24 @@ export const postAdmin = async (
         if (data.success) {
           setResData(true);
           setLoading(false);
-          toast.success('Админ муваффақиятли қушилди');
+          toast.success('Админ муваффақиятли қўшилди');
         } else {
           setLoading(false);
-          toast.error('Нимадур хатолик юз берди, кейинроқ қайта уриниб куринг');
+          toast.error('Нимадир хатолик юз берди, кейинроқ қайта уриниб кўринг');
         }
       } else {
-        toast.error('Малумотлар тулиқлигини текшириб куринг');
+        toast.error('Маълумотлар тўлиқлигини текшириб кўринг');
         setLoading(false);
       }
     } else {
       setLoading(false);
-      toast.error('Пароллар мослиги туғри келмади');
+      toast.error('Пароллар мослиги тўғри келмади');
       consoleClear();
     }
   } catch (err: any) {
     setLoading(false);
-    if (err.response.data.message === 'This email exist') toast.error('Бу электрон почта мавжуд бошқа электрон почта билан уриниб куринг');
-    else toast.error('Нимадур хатолик юз берди, кейинроқ қайта уриниб куринг');
+    if (err.response.data.message === 'This email exist') toast.error('Бу электрон почта мавжуд бошқа электрон почта билан уриниб кўринг');
+    else toast.error('Нимадир хатолик юз берди, кейинроқ қайта уриниб кўринг');
     consoleClear();
   }
 };

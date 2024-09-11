@@ -15,28 +15,24 @@ import ClientQuizTest from './pages/client/ClientQuizTest.tsx';
 import ClientDashboard from './pages/client/ClientDashboard.tsx';
 import ResetPassword from './pages/Authentication/ResetPasword.tsx';
 import ClientQuizResult from './pages/client/ClientQuizResult.tsx';
-import { setConfig } from './common/api/token.tsx';
-import { consoleClear } from './common/console-clear/console-clear.tsx';
 import UserAdmin from './pages/UserAdmin.tsx';
-import { screenshotBlocked, siteSecurity } from './common/privacy-features/privacy-features.tsx';
-import ClientQuizStart from './pages/client/ClientQuizStart.tsx';
-import AllUser from './pages/AllUser.tsx';
+import Address from './pages/Address.tsx';
 import ResultArchive from './pages/ResultArchive.tsx';
 import ClientProfileEdit from './pages/client/ClientProfileEdit.tsx';
-import Address from './pages/Address.tsx';
+import ClientQuizStart from './pages/client/ClientQuizStart.tsx';
+import AllUser from './pages/AllUser.tsx';
+import PublicOffer from './pages/Authentication/PublicOffer.tsx';
+import { consoleClear } from './common/console-clear/console-clear.tsx';
+import { setConfig } from './common/api/token.tsx';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
+  const [isCursorOutside, setIsCursorOutside] = useState<boolean>(true);
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const tokens = localStorage.getItem('token');
   const role = localStorage.getItem('ROLE');
   const tokenExpiry = localStorage.getItem('tokenExpiry');
-
-  useEffect(() => {
-    screenshotBlocked();
-    // siteSecurity();
-  }, []);
 
   useEffect(() => {
     setConfig();
@@ -54,18 +50,12 @@ function App() {
     window.scrollTo(0, 0);
 
     if (pathname === '/') {
-      if (role === 'ROLE_TESTER') {
-        if (!tokens) navigate('/auth/signin');
-        else navigate('/category');
-      } else if (role === 'ROLE_CLIENT') {
+      if (role === 'ROLE_USER') {
         if (!tokens) navigate('/auth/signin');
         else navigate('/client/dashboard');
-      } else if (role === 'ROLE_SUPER_ADMIN') {
+      } else if (role === 'ROLE_STUDENT') {
         if (!tokens) navigate('/auth/signin');
-        else navigate('/dashboard');
-      } else if (role === 'ROLE_ADMIN') {
-        if (!tokens) navigate('/auth/signin');
-        else navigate('/dashboard');
+        else navigate('/client/dashboard');
       }
     }
 
@@ -85,8 +75,9 @@ function App() {
     if (!tokens && !pathname.startsWith('/auth')) navigate('/auth/signin');
     if (!tokens && pathname.startsWith('/auth')) sessionStorage.removeItem('refreshes');
 
-    // console clear u/n
-    consoleClear();
+    setTimeout(() => {
+      consoleClear();
+    }, 10000);
   }, [pathname, tokens, navigate]);
 
   return loading ? (
@@ -97,13 +88,18 @@ function App() {
         Скрееншот олиш тақиқланган❗❌
       </div>
 
+      {(isCursorOutside && role === 'ROLE_CLIENT') && <div id="screenshot-warning">
+        Сайтнинг хавфсизлик сиёсати туфайли сиз буердан чиқиб кетишингиз мумкин эмас. Сайтдан курсор фокуси узилиб
+        қолди❗❌
+      </div>}
+
       <Routes>
         <Route
           index
           path={`/dashboard`}
           element={
             <>
-              <PageTitle title="Admin | Dashboard" />
+              <PageTitle title="Админ | Бошқарув панели" />
               <Dashboard />
             </>
           }
@@ -112,7 +108,7 @@ function App() {
           path="/category"
           element={
             <>
-              <PageTitle title="Admin | Category" />
+              <PageTitle title="Админ | Туркум" />
               <Category />
             </>
           }
@@ -121,7 +117,7 @@ function App() {
           path="/test"
           element={
             <>
-              <PageTitle title="Admin | Test" />
+              <PageTitle title="Админ | Тест" />
               <Test />
             </>
           }
@@ -130,7 +126,7 @@ function App() {
           path="/all-user"
           element={
             <>
-              <PageTitle title="Admin | All User" />
+              <PageTitle title="Админ | Барча фойдаланувчи" />
               <AllUser />
             </>
           }
@@ -139,7 +135,7 @@ function App() {
           path="/address"
           element={
             <>
-              <PageTitle title="Admin | Address" />
+              <PageTitle title="Админ | Манзил" />
               <Address />
             </>
           }
@@ -148,7 +144,7 @@ function App() {
           path="/user"
           element={
             <>
-              <PageTitle title="Admin | User" />
+              <PageTitle title="Админ | Фойдаланувчи" />
               <User />
             </>
           }
@@ -157,7 +153,7 @@ function App() {
           path="/archive/:id"
           element={
             <>
-              <PageTitle title="Result Archive" />
+              <PageTitle title="Натижа архиви" />
               <ResultArchive />
             </>
           }
@@ -166,7 +162,7 @@ function App() {
           path="/employees"
           element={
             <>
-              <PageTitle title="Admin | Employees" />
+              <PageTitle title="Админ | Ходимлар" />
               <UserAdmin />
             </>
           }
@@ -175,7 +171,7 @@ function App() {
           path="/inspector-admin"
           element={
             <>
-              <PageTitle title="Admin | Inspector" />
+              <PageTitle title="Админ | Инспектор" />
               <User />
             </>
           }
@@ -184,7 +180,7 @@ function App() {
           path="/auth/signin"
           element={
             <>
-              <PageTitle title="Signin" />
+              <PageTitle title="Тизимга кириш" />
               <SignIn />
             </>
           }
@@ -193,7 +189,7 @@ function App() {
           path="/auth/signup"
           element={
             <>
-              <PageTitle title="Signup" />
+              <PageTitle title="Рўйхатдан ўтиш" />
               <SignUp />
             </>
           }
@@ -202,7 +198,7 @@ function App() {
           path="/auth/confirm"
           element={
             <>
-              <PageTitle title="Confirm" />
+              <PageTitle title="Тасдиқланг" />
               <ConfirmEmailCode />
             </>
           }
@@ -211,8 +207,17 @@ function App() {
           path="/auth/reset-password"
           element={
             <>
-              <PageTitle title="Reset password" />
+              <PageTitle title="Паролни тиклаш" />
               <ResetPassword />
+            </>
+          }
+        />
+        <Route
+          path="/auth/offer"
+          element={
+            <>
+              <PageTitle title="Оферта шартлари" />
+              <PublicOffer />
             </>
           }
         />
@@ -220,7 +225,7 @@ function App() {
           path="/client/quiz/:id"
           element={
             <>
-              <PageTitle title="Client | Quiz test" />
+              <PageTitle title="Мижоз | Викторина тести" />
               <ClientQuizTest />
             </>
           }
@@ -229,7 +234,7 @@ function App() {
           path="/client/quiz/result"
           element={
             <>
-              <PageTitle title="Client | Quiz Result" />
+              <PageTitle title="Мижоз | Викторина натижаси" />
               <ClientQuizResult />
             </>
           }
@@ -238,7 +243,7 @@ function App() {
           path="/client/dashboard"
           element={
             <>
-              <PageTitle title="Client | Dashboard" />
+              <PageTitle title="Мижоз | Бошқарув панели" />
               <ClientDashboard />
             </>
           }
@@ -247,7 +252,7 @@ function App() {
           path="/client/test/start"
           element={
             <>
-              <PageTitle title="Client | Quiz" />
+              <PageTitle title="Мижоз | Викторина" />
               <ClientQuizStart />
             </>
           }
@@ -256,7 +261,7 @@ function App() {
           path="/client/profile"
           element={
             <>
-              <PageTitle title="Client | Profile" />
+              <PageTitle title="Мижоз | Профил" />
               <ClientProfileEdit />
             </>
           }

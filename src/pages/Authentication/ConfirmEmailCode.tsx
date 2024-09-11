@@ -4,8 +4,7 @@ import globalStore from '../../common/state-management/globalStore.tsx';
 import { forgotPasswordEmail, registerClientActive } from '../../common/logic-functions/auth.tsx';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
-import darkLogo from '../../images/logo/geodeziya_dark.png';
-import lightLogo from '../../images/logo/geodeziya_light.png';
+import logo from '../../images/logo/Sfer 1.png';
 
 const ConfirmEmailCode = () => {
   const { confirmEmailCode, setConfirmEmailCode, email, setEmail } = authStore();
@@ -38,8 +37,7 @@ const ConfirmEmailCode = () => {
           <div className="hidden w-full xl:block xl:w-1/2">
             <div className="py-17.5 px-26 text-center flex flex-col justify-center items-center">
               <Link className="mb-5.5 inline-block" to="/auth/confirm">
-                <img className="hidden dark:block w-full h-40 scale-[2]" src={darkLogo} alt="Logo" />
-                <img className="dark:hidden w-full h-40 scale-[2]" src={lightLogo} alt="Logo" />
+                <img className=" w-full -translate-x-6" src={logo} alt="Logo" />
               </Link>
 
               <span className="inline-block">
@@ -209,9 +207,9 @@ const ConfirmEmailCode = () => {
                   />
                 </div>
 
-                <div className="mt-6 text-center">
+                {/* <div className="mt-6 text-center">
                   <p>
-                    Руйхатдан утиш саҳифасига қайтиш{' '}
+                    Рўйхатдан ўтиш саҳифасига қайтиш{' '}
                     <Link
                       to="/auth/signup"
                       className="text-primary"
@@ -220,7 +218,7 @@ const ConfirmEmailCode = () => {
                       Рўйхатдан ўтиш
                     </Link>
                   </p>
-                </div>
+                </div> */}
               </form>
             </div>
           </div>

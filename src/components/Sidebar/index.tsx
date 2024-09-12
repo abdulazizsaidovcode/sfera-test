@@ -1,13 +1,20 @@
 import { useEffect, useRef } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import logo from '../../images/logo/Sfer 1.png';
+import { TbCategory } from "react-icons/tb";
+import { FaRegNoteSticky } from 'react-icons/fa6';
+import AddButtons from '../buttons/buttons';
+import { IoIosLogOut } from 'react-icons/io';
+import GlobalModal from '../modal/modal';
+
 
 interface SidebarProps {
   sidebarOpen: boolean;
   setSidebarOpen: (arg: boolean) => void;
+  toggleModal: () => void;
 }
 
-const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
+const Sidebar = ({ sidebarOpen, setSidebarOpen, toggleModal }: SidebarProps) => {
   const location = useLocation();
   const { pathname } = location;
 
@@ -95,7 +102,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                     to="/client/dashboard"
                     className={`${styles.sidebar} ${pathname === '/client/dashboard' && 'bg-[#16423C] dark:bg-meta-4'}`}
                   >
-                    Hатижалар
+                    <TbCategory size={20} />
+                    Natijalar
                   </NavLink>
                 </li>
                 <li>
@@ -103,13 +111,18 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                     to="/client/test/start"
                     className={`${styles.sidebar} ${pathname === '/client/test/start' && 'bg-[#16423C] dark:bg-meta-4'}`}
                   >
-                    Йўналишлар
+                    <FaRegNoteSticky size={20} />
+                    Yo'nalishlar
                   </NavLink>
                 </li>
               </>
+
             </ul>
           </div>
         </nav>
+      </div>
+      <div className='p-5'>
+        <AddButtons onClick={toggleModal} icon><IoIosLogOut size={20} /> CHIQISH</AddButtons>
       </div>
     </aside>
   );

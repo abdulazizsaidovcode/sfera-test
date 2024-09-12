@@ -24,15 +24,12 @@ export interface DashboardListStatisticCards {
 }
 
 export interface ClientDashboardStatisticsList {
-  id: number;
-  fileId: number;
-  firstName: string;
-  lastName: string;
-  categoryName: string;
-  correctAnswers: number;
-  countAnswers: number;
-  durationTime: number;
-  testScore: number;
-  createdAt: string;
-  status: string;
+  id: number,
+  userId: number,
+  categoryName: string,
+  countAnswer: number,
+  correctAnswer: number,
+  duration: number,
+  status: string,
+  createdAt: string
 }

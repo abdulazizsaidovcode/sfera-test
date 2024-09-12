@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {
+  base_url,
   get_certificate,
   get_certificate_id,
   statistics_card,
@@ -14,25 +15,32 @@ import {
 } from '../../types/dashboard.ts';
 import { consoleClear } from '../console-clear/console-clear.tsx';
 
-export const getClientDashboardStatistic = async (page: number, size: number, setClientData: (val: null | ClientDashboardStatisticsList[]) => void, setTotalPage: (val: number) => void, setIsLoading: (val: boolean) => void) => {
+export const getClientDashboardStatistic = async (userId: number, setClientData: (val: null | ClientDashboardStatisticsList[]) => void, setIsLoading: (val: boolean) => void) => {
   setIsLoading(true);
   try {
-    const { data } = await axios.get(`${statistics_client}?page=${page}&size=${size}`, config);
-    if (data.success) {
-      setClientData(data.body.body);
-      setTotalPage(data.body.totalElements);
-      setIsLoading(false);
-    } else {
-      setClientData(null);
-      setIsLoading(false);
-      consoleClear();
-    }
+    const { data } = await axios.get(`${statistics_client}/${userId}`, config);
+    if (data.data) setClientData(data.data)
+    else setClientData(null);
   } catch {
-    consoleClear();
-    setIsLoading(false);
     setClientData(null);
   }
+  finally {
+    consoleClear();
+    setIsLoading(false)
+  }
 };
+
+export const getUserStatistic = async (setData: (val: any) => void) => {
+  try {
+    const { data } = await axios.get(`${base_url}result/countAll`, config);
+    if (data.data) {
+      setData(data.data)
+    }
+  } catch { setData(null) }
+  finally {
+    consoleClear()
+  }
+}
 
 export const downloadFile = (url: string) => {
   axios.get(url, { ...config, responseType: 'blob' })

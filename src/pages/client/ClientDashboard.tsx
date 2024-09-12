@@ -1,32 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { getMe } from '../../common/global-functions';
 import ClientDashboardCard from '../../components/ClientDashboardCard';
-import { getClientCertificate, getClientDashboardStatistic } from '../../common/logic-functions/dashboard';
+import { getClientCertificate, getClientDashboardStatistic, getUserStatistic } from '../../common/logic-functions/dashboard';
 import dashboardStore from '../../common/state-management/dashboardStore';
-import { Pagination, Skeleton } from 'antd';
+import { Skeleton } from 'antd';
 import { getCertificate } from '../../common/logic-functions/test';
+import { BorderBeam } from '@/components/magicui/border-beam';
+import NumberTicker from '@/components/magicui/number-ticker';
+import Meteors from '@/components/magicui/meteors';
+import { GetMeeTypes } from '@/types/auth';
 
 const ClientDashboard: React.FC = () => {
   const { clientstatistic, setClientStatistic } = dashboardStore();
-  const [getMee, setGetMee] = useState<any>({});
+  const [getMee, setGetMee] = useState<GetMeeTypes>();
   const [isLoading, setIsLoading] = useState(false);
-  const [totalPage, setTotalPage] = useState(0);
-  const [pageSize, setPageSize] = useState(10);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [statistic, setStatictic] = useState<any>({});
   const [loadingStates, setLoadingStates] = useState<{ [key: number]: { certificate: boolean, email: boolean } }>({});
 
   useEffect(() => {
     getMe(setGetMee);
+    getUserStatistic(setStatictic)
   }, []);
 
   useEffect(() => {
-    getClientDashboardStatistic(currentPage, pageSize, setClientStatistic, setTotalPage, setIsLoading);
-  }, [pageSize, currentPage, setClientStatistic]);
-
-  const onPageChange = (page: number, pageSize: number) => {
-    setCurrentPage(page - 1);
-    setPageSize(pageSize);
-  };
+    getClientDashboardStatistic(23, setClientStatistic, setIsLoading);
+  }, [getMee?.userId, setClientStatistic]);
 
   const handleUploadCertificate = (id: number) => {
     setLoadingStates(prev => ({ ...prev, [id]: { ...prev[id], certificate: true } }));
@@ -38,19 +36,49 @@ const ClientDashboard: React.FC = () => {
     getCertificate(id, setLoadingStates);
   };
 
+  console.log(statistic);
+  
+
   return (
     <>
       <div>
         <div>
-          <p className="text-center text-red-600 dark:text-blue-600 text-3xl font-bold">Сизнинг натижаларингиз</p>
+          <p className="text-center text-[#16423C] text-3xl font-bold">Sizning natijalaringiz</p>
           <p className="text-black dark:text-white text-xl font-bold mt-3">
-            {`${getMee?.firstName} ${getMee?.lastName}` || 'Меҳмон'}
+            {getMee ? `${getMee.firstName} ${getMee.lastName}` : 'Меҳмон'}
           </p>
         </div>
+        <div className='grid md:grid-cols-3 grid-cols-1 gap-3 mt-3'>
+          <div className='bg-[#6A9C89] relative overflow-hidden py-10 px-6 rounded-2xl'>
+            <p className='text-lg text-gray'>Natijalar soni</p>
+            <p className=' text-white font-semibold text-3xl'>
+              {statistic && statistic.countResult ? <NumberTicker value={statistic.countResult} /> : 0}
+            </p>
+            <Meteors number={50} />
+            <BorderBeam size={250} borderWidth={2} duration={12} delay={9} />
+          </div>
+          <div className='bg-[#6A9C89] relative overflow-hidden py-10 px-6 rounded-2xl'>
+            <p className='text-lg text-gray'>Test ishlangan yo'nalishlar soni</p>
+            <p className=' text-white font-semibold text-3xl'>
+              {statistic && statistic.resultCategoryCount ? <NumberTicker value={statistic.resultCategoryCount} /> : 0}
+            </p>
+            <Meteors number={50} />
+            <BorderBeam size={250} borderWidth={2} duration={12} delay={9} />
+          </div>
+          <div className='bg-[#6A9C89] relative overflow-hidden py-10 px-6 rounded-2xl'>
+            <p className='text-lg text-gray'>Yuqori natijalar soni</p>
+            <p className=' text-white font-semibold text-3xl'>
+              {statistic && statistic.passedResultCount ? <NumberTicker value={statistic.passedResultCount} /> : 0}
+            </p>
+            <BorderBeam size={250} borderWidth={2} duration={12} delay={9} />
+            <Meteors number={50} />
+          </div>
+        </div>
+
         {isLoading ? <Skeleton />
           : clientstatistic ?
             <div className="mt-4">
-              <div className="flex gap-5 flex-wrap">
+              <div className="grid lg:grid-cols-3 gap-5 flex-wrap">
                 {clientstatistic.map((item, index) => (
                   <ClientDashboardCard
                     data={item}
@@ -62,17 +90,9 @@ const ClientDashboard: React.FC = () => {
                   />
                 ))}
               </div>
-              <div className="mt-5">
-                <Pagination
-                  current={currentPage}
-                  pageSize={pageSize}
-                  total={totalPage}
-                  onChange={onPageChange}
-                />
-              </div>
             </div>
             : <div className="flex h-[67vh] justify-center items-center">
-              <p className="text-xl">Натижалар топилмади</p>
+              <p className="text-xl">Natijalar mavjud emas</p>
             </div>
         }
       </div>

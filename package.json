@@ -17,10 +17,14 @@
     "antd": "^5.19.3",
     "apexcharts": "^3.41.0",
     "axios": "^1.7.2",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
     "flatpickr": "^4.6.13",
+    "framer-motion": "^11.5.4",
     "headlessui": "^0.0.0",
     "jsvectormap": "^1.5.3",
     "katex": "^0.16.11",
+    "lucide-react": "^0.440.0",
     "mammoth": "^1.8.0",
     "match-sorter": "^6.3.1",
     "moment": "^2.30.1",
@@ -33,6 +37,8 @@
     "react-router-dom": "^6.14.2",
     "react-toastify": "^9.1.3",
     "sort-by": "^0.0.2",
+    "tailwind-merge": "^2.5.2",
+    "tailwindcss-animate": "^1.0.7",
     "zustand": "^4.5.4"
   },
   "devDependencies": {

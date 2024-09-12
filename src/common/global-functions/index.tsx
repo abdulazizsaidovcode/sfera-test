@@ -9,9 +9,9 @@ export const getMe = async (setData: (val: any) => void) => {
   try {
     const { data } = await axios.get(getMeUrl, config);
     if (data) setData(data.data);
-    else setData(null);
+    else setData({});
   } catch (error) {
-    setData(null);
+    setData({});
     console.log('error', error);
   } finally {
     consoleClear();

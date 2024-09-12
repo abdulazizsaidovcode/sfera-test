@@ -1,5 +1,5 @@
 // swagger url => base
-const base_url: string = 'http://142.93.106.195:8080/';
+export const base_url: string = 'http://142.93.106.195:8080/';
 // const base_url: string = 'http://192.168.0.116:8080/';
 
 // ESLATMA: URL OXRIDA => / QUYILGAN BULSA YOKI ID KETADI YOKI TEXT YANI SEARCHLAR UCHUN
@@ -59,7 +59,7 @@ export const api_videos_files: string = `${base_url}api/videos/files/`; // video
 // export const api_videos_delete: string = `${base_url}api/videos/delete/`; // video delete qilish Id bilan
 
 //================QUIZ CONTROLLER======================
-export const quiz_pass: string = `${base_url}quiz/pass`; // Client Testni Submit qilishi uchun
+export const quiz_pass: string = `${base_url}test/pass`; // Client Testni Submit qilishi uchun
 export const    quiz_start: string = `${base_url}test/start`; // Client Testni Boshlash uchun qilishi uchun
 
 //================CERTIFICATE CONTROLLER======================
@@ -74,5 +74,5 @@ export const user_profile_update: string = `${base_url}user/update/`; // Client 
 //================STATISTICS CONTROLLER======================
 export const statistics_day: string = `${base_url}statistic/dayOfWeek/`; // Client result olishi uchun
 export const statistics_card: string = `${base_url}statistic/counts/`; // Client result olishi uchun
-export const statistics_client: string = `${base_url}statistic/user-dashboard/`; // Client result olishi uchun
+export const statistics_client: string = `${base_url}result/user`; // Client result olishi uchun
 export const statistics_card_all: string = `${base_url}statistic/filter/`; // Client result olishi uchun all

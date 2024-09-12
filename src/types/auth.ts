@@ -16,3 +16,9 @@ export interface Auth {
   gender: string|null
   setGender(val: string|null): void;
 }
+
+export interface GetMeeTypes {
+  userId: number;
+  firstName: string;
+  lastName: string;
+}

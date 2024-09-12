@@ -14,14 +14,14 @@ export const fetchQuiz = async (id: string | undefined, setQuizData: (val: TestM
   setIsLoading(true);
   try {
     const { data } = await axios.get(`${quiz_start}/${id}`, config);
-    if (data.success) {
+    if (data.data) {
       setQuizData({
-        quizList: data.body.questionDtoList,
-        quiz: data.body,
+        quizList: data.data.questionDtoList,
+        quiz: data.data,
         currentQuestionIndex: 0,
-        remainingTime: data.body.duration
+        remainingTime: data.data.duration
       });
-      setTotalTime(data.body.duration * 60);
+      setTotalTime(data.data.duration * 60);
       setIsLoading(false);
     } else {
       setIsLoading(false);
@@ -53,11 +53,11 @@ export const fetchQuiz = async (id: string | undefined, setQuizData: (val: TestM
   }
 };
 
-export const sendResults = async (id: string | undefined, duration: number, countAnswers: number, payload: any[], navigate: (path: string) => void, setIsLoading: (val: boolean) => void, setCurrentIndex: (val: number) => void, setQuizData: (val: TestMainData) => void) => {
+export const sendResults = async (id: string | undefined, duration: number, payload: any[], navigate: (path: string) => void, setIsLoading: (val: boolean) => void, setCurrentIndex: (val: number) => void, setQuizData: (val: TestMainData) => void) => {
   setIsLoading(true);
   try {
-    const { data } = await axios.post(`${quiz_pass}/${id}?duration=${duration}&countAnswers=${countAnswers}`, payload, config);
-    if (data.success) {
+    const { data } = await axios.post(`${quiz_pass}/${id}?duration=${duration}`, payload, config);
+    if (data.data) {
       navigate('/client/quiz/result');
       setIsLoading(false);
       setCurrentIndex(0);

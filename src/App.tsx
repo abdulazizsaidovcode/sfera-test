@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-
 import Loader from './common/Loader';
 import PageTitle from './components/PageTitle';
 import DefaultLayout from './layout/DefaultLayout';
@@ -27,7 +26,6 @@ import { setConfig } from './common/api/token.tsx';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
-  const [isCursorOutside, setIsCursorOutside] = useState<boolean>(true);
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const tokens = localStorage.getItem('token');
@@ -84,15 +82,6 @@ function App() {
     <Loader />
   ) : (
     <DefaultLayout>
-      <div id="screenshot-warning" className="hidden">
-        Скрееншот олиш тақиқланган❗❌
-      </div>
-
-      {(isCursorOutside && role === 'ROLE_CLIENT') && <div id="screenshot-warning">
-        Сайтнинг хавфсизлик сиёсати туфайли сиз буердан чиқиб кетишингиз мумкин эмас. Сайтдан курсор фокуси узилиб
-        қолди❗❌
-      </div>}
-
       <Routes>
         <Route
           index

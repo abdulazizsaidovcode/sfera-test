@@ -36,7 +36,7 @@ export interface TestQuestionDtoList {
   type: string,
   score: number,
   attachmentIds: string[],
-  optionDtos: TestOptionDtos[],
+  optionDto: TestOptionDtos[],
   isMain: null
 }
 

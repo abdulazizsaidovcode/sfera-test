@@ -1,22 +1,42 @@
+const {
+  default: flattenColorPalette,
+} = require("tailwindcss/lib/util/flattenColorPalette");
 const defaultTheme = require('tailwindcss/defaultTheme');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   darkMode: 'class',
+  content: [
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}',
+  ],
+  prefix: "",
   theme: {
-    fontFamily: {
-      satoshi: ['Satoshi', 'sans-serif']
+    container: {
+      center: true,
+      padding: "2rem",
     },
     screens: {
       '2xsm': '375px',
-      xsm: '425px',
+      xsm: '465px',
       '3xl': '2000px',
       ...defaultTheme.screens
     },
+    backgroundImage: {
+      'custom-gradient': 'linear-gradient(90deg, #1D4ED8, #4F46E5)',
+    },
+    fontFamily: {
+      satoshi: ['Satoshi', 'sans-serif']
+    },
     extend: {
       colors: {
-        current: 'currentColor',
+        darkGreen: "#16423C",
+        lighterGreen: "#6A9C89",
+        veryPaleGreen: "#C4DAD2",
+        whiteGreen: "#E9EFEC",
+        current: '#5fa5f9',
         transparent: 'transparent',
         white: '#FFFFFF',
         black: '#1C2434',
@@ -240,16 +260,82 @@ module.exports = {
         rotating: {
           '0%, 100%': { transform: 'rotate(360deg)' },
           '50%': { transform: 'rotate(0deg)' }
-        }
+        },
+        ripple: {
+          "0%, 100%": {
+            transform: "translate(-50%, -50%) scale(1)",
+          },
+          "50%": {
+            transform: "translate(-50%, -50%) scale(0.9)",
+          },
+        },
+        "border-beam": {
+          "100%": {
+            "offset-distance": "100%",
+          },
+        },
+        "shine-pulse": {
+          "0%": {
+            "background-position": "0% 0%",
+          },
+          "50%": {
+            "background-position": "100% 100%",
+          },
+          to: {
+            "background-position": "0% 0%",
+          },
+        },
+        meteor: {
+          "0%": { transform: "rotate(215deg) translateX(0)", opacity: "1" },
+          "70%": { opacity: "1" },
+          "100%": {
+            transform: "rotate(215deg) translateX(-500px)",
+            opacity: "0",
+          },
+        },
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+        shimmer: {
+          "0%, 90%, 100%": {
+            "background-position": "calc(-100% - var(--shimmer-width)) 0",
+          },
+          "30%, 60%": {
+            "background-position": "calc(100% + var(--shimmer-width)) 0",
+          },
+        },
       },
       animation: {
         'ping-once': 'ping 5s cubic-bezier(0, 0, 0.2, 1)',
         rotating: 'rotating 30s linear infinite',
         'spin-1.5': 'spin 1.5s linear infinite',
         'spin-2': 'spin 2s linear infinite',
-        'spin-3': 'spin 3s linear infinite'
+        'spin-3': 'spin 3s linear infinite',
+        ripple: "ripple var(--duration,2s) ease calc(var(--i, 0)*.2s) infinite",
+        "border-beam": "border-beam calc(var(--duration)*1s) infinite linear",
+        meteor: "meteor 5s linear infinite",
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+        shimmer: "shimmer 8s infinite",
+        meteor: "meteor 5s linear infinite",
       }
-    }
+    },
   },
-  plugins: []
-};
+  plugins: [require("tailwindcss-animate"), addVariablesForColors],
+}
+
+function addVariablesForColors({ addBase, theme }) {
+  let allColors = flattenColorPalette(theme("colors"));
+  let newVars = Object.fromEntries(
+    Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
+  );
+
+  addBase({
+    ":root": newVars,
+  });
+}

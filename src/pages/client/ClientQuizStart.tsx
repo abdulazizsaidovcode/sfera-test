@@ -25,37 +25,38 @@ const ClientQuizStart: React.FC = () => {
     <>
       <div>
         <div>
-          <p className="text-center text-[#16423C] text-3xl font-bold">Йўналишлар</p>
+          <p className="text-center text-[#16423C] text-3xl font-bold">Yo'nalishlar</p>
           {/* <p className="text-black dark:text-white text-xl font-bold">Ҳуш келибсиз, {getMee && getMee.fullName}</p> */}
         </div>
         {isLoading ? <Skeleton /> :
-          clientCategoryData && clientCategoryData.length !== 0 ? <div>
-            {clientCategoryData &&clientCategoryData.map((item) => (
-              <div>
-                <CategoryCard
-                  data={item}
-                  onClick={() => {
-                    toggleModal();
-                    setCategoryId(item);
-                  }}
-                />
-              </div>
-            ))}
-          </div> : <div className="flex h-[69vh] justify-center items-center">
-            <p className="text-xl">Йўналишлар топилмади</p>
-          </div>
+          clientCategoryData && clientCategoryData.length !== 0 ?
+            <div className='grid grid-cols-2 gap-3 mt-5'>
+              {clientCategoryData && clientCategoryData.map((item) => (
+                <div>
+                  <CategoryCard
+                    data={item}
+                    onClick={() => {
+                      toggleModal();
+                      setCategoryId(item);
+                    }}
+                  />
+                </div>
+              ))}
+            </div> : <div className="flex h-[69vh] justify-center items-center">
+              <p className="text-xl">Yo'nalishlar mavjud emas</p>
+            </div>
         }
         <GlobalModal isOpen={isModal} onClose={toggleModal}>
           <div className="w-54 sm:w-64 md:w-96 lg:w-[40rem]">
             <div className="flex flex-col justify-center items-center">
               <MdOutlineNotStarted className="text-[#16423C]" size={100} />
-              <p className="text-center sm:text-[17px]">Ҳақиқатдан ҳам <span className={`font-bold text-[#16423C]`}>{categoryId.name}</span> йўналиш бўйича тест бошламоқчимисиз?</p>
+              <p className="text-center sm:text-[17px]">Xaqiqatdan ham <span className={`font-bold text-[#16423C]`}>{categoryId.name}</span> yo'nalish boyicha test ishlamoqchisizmi?</p>
               <div className="flex gap-3 mt-4">
-                <AddButtons onClick={toggleModal}>Орқага</AddButtons>
+                <AddButtons onClick={toggleModal}>Orqaga</AddButtons>
                 <AddButtons onClick={() => {
                   navigation(`/client/quiz/${categoryId.id}`);
                   localStorage.removeItem('remainingTime');
-                }}>Бошлаш</AddButtons>
+                }}>Boshlash</AddButtons>
               </div>
             </div>
           </div>

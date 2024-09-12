@@ -60,7 +60,7 @@ const ClientQuizTest = () => {
             setHasSubmitted(true);
             alert('Вақт бўлди!');
             navigate('/');
-            sendResults(id, time, quizData.quiz.countAnswers, payload, navigate, setIsBtnLoading, setCurrentIndex, setQuizData);
+            sendResults(id, time, payload, navigate, setIsBtnLoading, setCurrentIndex, setQuizData);
           }
           return 0;
         }
@@ -163,7 +163,7 @@ const ClientQuizTest = () => {
   return (
     <div>
       <div className="dark:bg-[#24303F] bg-white my-3 shadow-lg w-full p-5 rounded-2xl">
-        <Progress percent={progressPercent} showInfo={false} />
+        <Progress percent={progressPercent} strokeColor={'#16423C'} showInfo={false} />
       </div>
       <div className="dark:bg-[#24303F] bg-white shadow-lg w-full p-5 rounded-2xl">
         {isLoading ? <div>
@@ -173,24 +173,24 @@ const ClientQuizTest = () => {
             <div>
             </div>
             <div className="">
-              <p className="text-center text-red-600 dark:text-blue-600 text-3xl font-bold">
+              <p className="text-center text-[#16423C] text-3xl font-bold">
                 {quizData.quizList[currentIndex]?.categoryName}
               </p>
             </div>
             <div>
               {sortQuiz(
                 currentIndex + 1,
-                quizData.quizList[currentIndex]?.optionDtos,
+                quizData.quizList[currentIndex]?.optionDto,
                 quizData.quizList[currentIndex]?.name,
                 quizData.quizList[currentIndex]?.attachmentIds,
               )}
             </div>
             <div className="flex flex-col md:flex-row gap-2 flex-wrap justify-between mt-5">
-              <p>Қолган вақт: {formatTime(remainingTime ? remainingTime : 0)}</p>
+              <p className='text-semibold text-[#16423C]'>Қолган вақт: {formatTime(remainingTime ? remainingTime : 0)}</p>
               <div className="relative flex justify-start md:justify-center items-center">
                 {isVisibleIndex &&
                   <div
-                    className="bg-red-600 absolute w-[17rem] p-5 rounded-xl bottom-11 dark:bg-blue-600 flex flex-wrap gap-2">
+                    className="bg-[#16423C] absolute w-[17rem] p-5 rounded-xl bottom-11 flex flex-wrap gap-2">
                     {quizData.quizList.map((_, index) => (
                       <div
                         onClick={() => {
@@ -208,7 +208,7 @@ const ClientQuizTest = () => {
                 }
                 <div
                   onClick={toggleVisibleIndex}
-                  className="bg-red-600 flex items-center justify-center gap-3 py-2 px-4 rounded-xl dark:bg-blue-600"
+                  className="bg-[#16423C] flex items-center justify-center gap-3 py-2 cursor-pointer px-4 rounded-xl dark:bg-blue-600"
                 >
                   <p className="text-white">Саволлар {currentIndex + 1} / {quizData && quizData.quizList.length}</p>
                   {isVisibleIndex
@@ -223,7 +223,7 @@ const ClientQuizTest = () => {
                 </AddButtons>
                 <AddButtons
                   onClick={currentIndex + 1 === quizData.quizList.length ? async () => {
-                    await sendResults(id, time === 0 ? 1 : time, quizData.quiz.countAnswers, payload, navigate, setIsBtnLoading, setCurrentIndex, setQuizData);
+                    await sendResults(id, time === 0 ? 1 : time, payload, navigate, setIsBtnLoading, setCurrentIndex, setQuizData);
                   } : handleNextQuestion}
                   disabled={isBtnLoading ? isBtnLoading : isNextDisabled}>{currentIndex + 1 === quizData.quizList.length ? `${isBtnLoading ? 'Юкланмоқда...' : 'Юбориш'}` : 'Кейингиси'}
                 </AddButtons>

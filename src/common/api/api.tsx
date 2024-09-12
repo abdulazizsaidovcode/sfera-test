@@ -66,7 +66,7 @@ export const    quiz_start: string = `${base_url}test/start`; // Client Testni B
 export const get_certificate_id: string = `${base_url}certificate/certificate-get`; // Client result olishi uchun
 export const get_certificate: string = `${base_url}api/videos/files`; // Client result olishi uchun
 export const certificate: string = `${base_url}certificate`; // Client result olishi uchun
-ц
+
 //================USER PROFILE====================== 
 export const user_profile: string = `${base_url}user/profile`; // Client ma'lumotlari
 export const user_profile_update: string = `${base_url}user/update/`; // Client ma'lumotlari

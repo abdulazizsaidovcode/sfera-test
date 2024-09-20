@@ -10,6 +10,8 @@ import { Image, Skeleton } from 'antd';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { Progress } from 'antd';
 import MathFormula from '../../components/math-formula.tsx';
+import CustomSkeleton from '@/components/skeleton/custom-skeleton.tsx';
+import { unReload } from '@/common/privacy-features/privacy-features.tsx';
 
 const ClientQuizTest = () => {
   const { quizData, setQuizData, setCurrentIndex, currentIndex } = useTestStore();
@@ -38,6 +40,10 @@ const ClientQuizTest = () => {
   }, [id, setQuizData, setIsLoading]);
 
   useEffect(() => {
+    unReload()
+  }, [])
+
+  useEffect(() => {
     if (quizData && quizData.remainingTime !== undefined) {
       const savedTime = localStorage.getItem('remainingTime');
       const savedIndex = localStorage.getItem('currentIndex');
@@ -53,7 +59,7 @@ const ClientQuizTest = () => {
           clearInterval(timer);
           if (!hasSubmitted) {
             setHasSubmitted(true);
-            alert('Вақт бўлди!');
+            alert('Vaqt tugati!');
             navigate('/');
             sendResults(id, time, payload, navigate, setIsBtnLoading, setCurrentIndex, setQuizData);
           }
@@ -162,7 +168,7 @@ const ClientQuizTest = () => {
       </div>
       <div className="dark:bg-[#24303F] bg-white shadow-lg w-full p-5 rounded-2xl">
         {isLoading ? <div>
-          <Skeleton />
+          <CustomSkeleton />
         </div> : quizData.quizList[currentIndex] ?
           <div>
             <div>
@@ -181,7 +187,7 @@ const ClientQuizTest = () => {
               )}
             </div>
             <div className="flex flex-col md:flex-row gap-2 flex-wrap justify-between mt-5">
-              <p className='text-semibold text-[#16423C]'>Қолган вақт: {formatTime(remainingTime ? remainingTime : 0)}</p>
+              <p className='text-semibold text-[#16423C]'>Qolgan vaqt: {formatTime(remainingTime ? remainingTime : 0)}</p>
               <div className="relative flex justify-start md:justify-center items-center">
                 {isVisibleIndex &&
                   <div
@@ -214,13 +220,13 @@ const ClientQuizTest = () => {
               </div>
               <div className="flex gap-5">
                 <AddButtons disabled={currentIndex === 0} onClick={() => setCurrentIndex(currentIndex - 1)}>
-                  Орқага
+                  Orqaga
                 </AddButtons>
                 <AddButtons
                   onClick={currentIndex + 1 === quizData.quizList.length ? async () => {
                     await sendResults(id, time === 0 ? 1 : time, payload, navigate, setIsBtnLoading, setCurrentIndex, setQuizData);
                   } : handleNextQuestion}
-                  disabled={isBtnLoading ? isBtnLoading : isNextDisabled}>{currentIndex + 1 === quizData.quizList.length ? `${isBtnLoading ? 'Юкланмоқда...' : 'Юбориш'}` : 'Кейингиси'}
+                  disabled={isBtnLoading ? isBtnLoading : isNextDisabled}>{currentIndex + 1 === quizData.quizList.length ? `${isBtnLoading ? 'Yuklanmoqda...' : 'Yuborish'}` : 'Keyingisi'}
                 </AddButtons>
               </div>
 
@@ -228,9 +234,9 @@ const ClientQuizTest = () => {
           </div>
           :
           <div className="flex justify-center flex-col h-100 items-center">
-            <p>Бу туркумда тестлар мавжуд эмас</p>
+            <p>Bu yo'nalishda test mavjud emas</p>
             <div>
-              <Link className="text-blue-600" to={'/client/dashboard'}>Ортга қайтиш</Link>
+              <Link className="text-blue-600" to={'/client/dashboard'}>Orqaga qaytish</Link>
             </div>
           </div>
         }

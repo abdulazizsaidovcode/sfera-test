@@ -3,10 +3,16 @@ import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import Loader from './common/Loader';
 import PageTitle from './components/PageTitle';
 import DefaultLayout from './layout/DefaultLayout';
-import Dashboard from './pages/Dashboard.tsx';
-import Category from './pages/Category.tsx';
-import Test from './pages/Test.tsx';
-import User from './pages/User.tsx';
+// import Dashboard from './pages/Dashboard.tsx';
+// import Category from './pages/Category.tsx';
+// import Test from './pages/Test.tsx';
+// import User from './pages/User.tsx';
+// import UserAdmin from './pages/UserAdmin.tsx';
+// import Address from './pages/Address.tsx';
+// import ResultArchive from './pages/ResultArchive.tsx';
+// import ClientProfileEdit from './pages/client/ClientProfileEdit.tsx';
+// import AllUser from './pages/AllUser.tsx';
+// import PublicOffer from './pages/Authentication/PublicOffer.tsx';
 import SignIn from './pages/Authentication/SignIn';
 import SignUp from './pages/Authentication/SignUp';
 import ConfirmEmailCode from './pages/Authentication/ConfirmEmailCode.tsx';
@@ -14,13 +20,7 @@ import ClientQuizTest from './pages/client/ClientQuizTest.tsx';
 import ClientDashboard from './pages/client/ClientDashboard.tsx';
 import ResetPassword from './pages/Authentication/ResetPasword.tsx';
 import ClientQuizResult from './pages/client/ClientQuizResult.tsx';
-import UserAdmin from './pages/UserAdmin.tsx';
-import Address from './pages/Address.tsx';
-import ResultArchive from './pages/ResultArchive.tsx';
-import ClientProfileEdit from './pages/client/ClientProfileEdit.tsx';
 import ClientQuizStart from './pages/client/ClientQuizStart.tsx';
-import AllUser from './pages/AllUser.tsx';
-import PublicOffer from './pages/Authentication/PublicOffer.tsx';
 import { consoleClear } from './common/console-clear/console-clear.tsx';
 import { setConfig } from './common/api/token.tsx';
 
@@ -83,7 +83,7 @@ function App() {
   ) : (
     <DefaultLayout>
       <Routes>
-        <Route
+        {/* <Route
           index
           path={`/dashboard`}
           element={
@@ -164,7 +164,7 @@ function App() {
               <User />
             </>
           }
-        />
+        /> */}
         <Route
           path="/auth/signin"
           element={
@@ -201,7 +201,7 @@ function App() {
             </>
           }
         />
-        <Route
+        {/* <Route
           path="/auth/offer"
           element={
             <>
@@ -209,7 +209,7 @@ function App() {
               <PublicOffer />
             </>
           }
-        />
+        /> */}
         <Route
           path="/client/quiz/:id"
           element={
@@ -246,7 +246,7 @@ function App() {
             </>
           }
         />
-        <Route
+        {/* <Route
           path="/client/profile"
           element={
             <>
@@ -254,7 +254,7 @@ function App() {
               <ClientProfileEdit />
             </>
           }
-        />
+        /> */}
       </Routes>
     </DefaultLayout>
   );

@@ -15,7 +15,7 @@ import {
 } from '../../types/dashboard.ts';
 import { consoleClear } from '../console-clear/console-clear.tsx';
 
-export const getClientDashboardStatistic = async (userId: number, setClientData: (val: null | ClientDashboardStatisticsList[]) => void, setIsLoading: (val: boolean) => void) => {
+export const getClientDashboardStatistic = async (userId: number | undefined, setClientData: (val: null | ClientDashboardStatisticsList[]) => void, setIsLoading: (val: boolean) => void) => {
   setIsLoading(true);
   try {
     const { data } = await axios.get(`${statistics_client}/${userId}`, config);

@@ -7,6 +7,7 @@ import { MdOutlineNotStarted } from 'react-icons/md';
 import GlobalModal from '../../components/modal/modal';
 import AddButtons from '../../components/buttons/buttons';
 import { useNavigate } from 'react-router-dom';
+import CustomSkeleton from '@/components/skeleton/custom-skeleton';
 
 const ClientQuizStart: React.FC = () => {
   const navigation = useNavigate();
@@ -28,7 +29,7 @@ const ClientQuizStart: React.FC = () => {
           <p className="text-center text-[#16423C] text-3xl font-bold">Yo'nalishlar</p>
           {/* <p className="text-black dark:text-white text-xl font-bold">Ҳуш келибсиз, {getMee && getMee.fullName}</p> */}
         </div>
-        {isLoading ? <Skeleton /> :
+        {isLoading ? <div className='mt-10 grid grid-cols-2 gap-5'>{[...Array(6)].map((_, index) => <CustomSkeleton key={index} />)}</div> :
           clientCategoryData && clientCategoryData.length !== 0 ?
             <div className='grid grid-cols-2 gap-3 mt-5'>
               {clientCategoryData && clientCategoryData.map((item) => (

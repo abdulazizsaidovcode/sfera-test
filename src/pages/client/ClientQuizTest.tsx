@@ -8,7 +8,6 @@ import { api_videos_files } from '../../common/api/api';
 import globalStore from '../../common/state-management/globalStore';
 import { Image, Skeleton } from 'antd';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
-import { unReload } from '../../common/privacy-features/privacy-features';
 import { Progress } from 'antd';
 import MathFormula from '../../components/math-formula.tsx';
 
@@ -37,10 +36,6 @@ const ClientQuizTest = () => {
   useEffect(() => {
     if (id) fetchQuiz(id, setQuizData, setIsLoading, setTotalTime);
   }, [id, setQuizData, setIsLoading]);
-
-  useEffect(() => {
-    unReload();
-  }, []);
 
   useEffect(() => {
     if (quizData && quizData.remainingTime !== undefined) {

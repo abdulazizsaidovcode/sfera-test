@@ -121,7 +121,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, toggleModal }: SidebarProps) => 
           </div>
         </nav>
       </div>
-      <div className='p-5'>
+      <div className='p-5 absolute bottom-0 w-full'>
         <AddButtons onClick={toggleModal} icon><IoIosLogOut size={20} /> CHIQISH</AddButtons>
       </div>
     </aside>

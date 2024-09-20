@@ -20,7 +20,6 @@ import PendingLoader from '../common/Loader/pending-loader.tsx';
 import toast from 'react-hot-toast';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { CategoryList } from '../types/category.ts';
-import { unReload } from '../common/privacy-features/privacy-features.tsx';
 import ImageModal from '../components/modal/image-modal.tsx';
 
 const thead: IThead[] = [
@@ -68,7 +67,6 @@ const Category = () => {
 
   useEffect(() => {
     getAdminCategoryPage({ setData: setCategoryData, page, setTotalPage, setIsLoading });
-    unReload();
   }, []);
 
   useEffect(() => {

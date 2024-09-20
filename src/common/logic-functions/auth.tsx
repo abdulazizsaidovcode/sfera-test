@@ -18,8 +18,8 @@ export const sliceNumber = (num: string) => {
 // register
 export const authRegister = (
   event: React.FormEvent<HTMLFormElement>,
-  firstname: string,
-  lastname: string,
+  firstName: string,
+  lastName: string,
   password: string,
   confirmPassword: string,
   setLoading: (loading: boolean) => void,
@@ -29,13 +29,13 @@ export const authRegister = (
   event.preventDefault();
 
   const data = {
-    firstname,
-    lastname,
+    firstName,
+    lastName,
     password,
     phoneNumber: sliceNumber(phoneNumber)
   };
 
-  if (firstname && lastname && password && confirmPassword && data.phoneNumber) {
+  if (firstName && lastName && password && confirmPassword && data.phoneNumber) {
     setLoading(true);
     if (password === confirmPassword) {
       axios.post(`${auth_register}`, data)

@@ -25,6 +25,11 @@ const SignIn = () => {
 
   const passwordToggle = () => setPasswordShow(!passwordShow);
 
+  const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value.replace(/\D/g, ''); // Remove non-digit characters
+    setPhoneNumber(`+${inputValue}`);
+  };
+
   return (
     <>
       <div>
@@ -36,22 +41,23 @@ const SignIn = () => {
               <div className='flex flex-col'>
                 <img className="w-35 " src={logo} alt="Logo" />
                 <h2 className="mb-9 text-2xl font-bold text-white sm:text-title-xl2">
-                  Тизимга кириш
+                  Tizimga kirish
                 </h2>
               </div>
               <form onSubmit={e => handleSubmit(e, phoneNumber, password, setIsLoading, setResData)}>
                 {/*email*/}
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-white">
-                    Телефон рақам
+                    Telefon raqam
                   </label>
                   <div className="relative">
                     <input
                       required
                       value={phoneNumber}
-                      onChange={e => setPhoneNumber(e.target.value)}
+                      onChange={handlePhoneNumberChange}
                       type="tel"
-                      placeholder="Электрон почтангизни киритинг"
+                      maxLength={13}
+                      placeholder="Telefon raqamni kiriting"
                       className="w-full rounded-lg border border-stroke bg-white bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none"
                     />
 
@@ -78,7 +84,7 @@ const SignIn = () => {
                 {/*password*/}
                 <div className="mb-6">
                   <label className="mb-2.5 block font-medium text-white">
-                    Парол
+                    Parol
                   </label>
                   <div className="relative">
                     <input
@@ -86,7 +92,7 @@ const SignIn = () => {
                       value={password}
                       onChange={e => setPassword(e.target.value)}
                       type={passwordShow ? 'text' : 'password'}
-                      placeholder="Паролни киритинг"
+                      placeholder="Parolingizni kiriting"
                       className="w-full rounded-lg bg-white border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none"
                     />
 
@@ -115,7 +121,7 @@ const SignIn = () => {
                       </svg>
                     </span>
                   </div>
-                  <p className='text-white'>Парол камида 5 та ҳарф ёки рақамдан иборат бўлиши керак</p>
+                  <p className='text-white'>Parol kamida 5 ta xarf yoki pakamdan iborat bo'lishi kerak.</p>
                 </div>
 
                 {/*confirm button*/}
@@ -123,7 +129,7 @@ const SignIn = () => {
                   <input
                     type="submit"
                     disabled={isLoading}
-                    value={isLoading ? 'Юкланмоқда...' : 'Тизимга кириш'}
+                    value={isLoading ? 'Yuklanmoqda...' : 'Tizmiga kirish'}
                     className={`w-full ${isLoading ? 'cursor-not-allowed bg-slate-500' : 'cursor-pointer bg-[#16423C]'} rounded-lg  p-4 text-white transition hover:bg-opacity-90`}
                   />
                 </div>
@@ -131,7 +137,7 @@ const SignIn = () => {
                 <div className="mt-6 text-center flex justify-between items-center">
                   <p>
                     <Link to="/auth/signup" className="text-white hover:underline">
-                      Рўйхатдан ўтиш
+                      Ro'yhatdan o'tish
                     </Link>
                   </p>
                 </div>

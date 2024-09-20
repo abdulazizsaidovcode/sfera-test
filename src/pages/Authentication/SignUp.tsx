@@ -41,6 +41,12 @@ const SignUp = () => {
 
   const passwordToggle = () => setPasswordShow(!passwordShow);
 
+  const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value.replace(/\D/g, ''); // Remove non-digit characters
+    setPhoneNumber(`+${inputValue}`);
+  };
+
+
   return (
     <>
       <div>
@@ -52,7 +58,7 @@ const SignUp = () => {
               <div className='flex flex-col'>
                 <img className="w-35 " src={logo} alt="Logo" />
                 <h2 className="mb-9 text-2xl font-bold text-white sm:text-title-xl2">
-                  Рўйхатдан ўтиш
+                  Ro'yhatdan o'tish
                 </h2>
               </div>
               <form
@@ -64,14 +70,14 @@ const SignUp = () => {
                 {/*first name*/}
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-white">
-                    Исм
+                    Ism
                   </label>
                   <div className="relative">
                     <input
                       required
                       value={firstName}
                       onChange={e => setFirstName(e.target.value)}
-                      placeholder="Исмингизни киритинг"
+                      placeholder="Ismingizni kiriting"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none bg-white"
                     />
 
@@ -102,14 +108,14 @@ const SignUp = () => {
                 {/*last name*/}
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-white">
-                    Фамилия
+                    Familiya
                   </label>
                   <div className="relative">
                     <input
                       required
                       value={lastName}
                       onChange={e => setLastName(e.target.value)}
-                      placeholder="Фамилиянгизни киритинг"
+                      placeholder="Familiyangizni kiriting"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none bg-white"
                     />
 
@@ -140,14 +146,15 @@ const SignUp = () => {
                 {/*phone number*/}
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-white">
-                    Телефон рақам
+                    Telefon raqam
                   </label>
                   <div className="relative">
                     <input
                       required
                       value={phoneNumber}
-                      onChange={e => setPhoneNumber(e.target.value)}
-                      placeholder="Телефон рақамни киритинг"
+                      onChange={handlePhoneNumberChange}
+                      placeholder="Telefon raqamni kiriting"
+                      maxLength={13}
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none bg-white"
                     />
 
@@ -177,7 +184,7 @@ const SignUp = () => {
                 {/*password*/}
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-white">
-                    Парол
+                    Parol
                   </label>
                   <div className="relative">
                     <input
@@ -185,7 +192,7 @@ const SignUp = () => {
                       value={password}
                       onChange={e => setPassword(e.target.value)}
                       type={passwordShow ? 'text' : 'password'}
-                      placeholder="Паролингизни киритинг"
+                      placeholder="Parolingizni kiriting"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none bg-white"
                     />
 
@@ -214,13 +221,13 @@ const SignUp = () => {
                       </svg>
                     </span>
                   </div>
-                  <p className='text-white'>Парол камида 5 та ҳарф ёки рақамдан иборат бўлиши керак.</p>
+                  <p className='text-white'>Parol kamida 5 ta xarf yoki pakamdan iborat bo'lishi kerak.</p>
                 </div>
 
                 {/*pre password*/}
                 <div className="mb-6">
                   <label className="mb-2.5 block font-medium text-white">
-                    Паролни тасдиқланг
+                    Parolni tasdiqlang
                   </label>
                   <div className="relative">
                     <input
@@ -228,7 +235,7 @@ const SignUp = () => {
                       value={prePassword}
                       onChange={e => setPrePassword(e.target.value)}
                       type={passwordShow ? 'text' : 'password'}
-                      placeholder="Паролни киритинг"
+                      placeholder="Parolni kiriting"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none bg-white"
                     />
 
@@ -264,16 +271,16 @@ const SignUp = () => {
                   <input
                     type="submit"
                     disabled={isLoading}
-                    value={isLoading ? 'Юкланмоқда...' : 'Рўйхатдан ўтиш'}
+                    value={isLoading ? 'Yuklanmoqda...' : 'Ro\'yhatdan o\'tish'}
                     className={`w-full ${isLoading ? 'cursor-not-allowed bg-slate-500' : 'cursor-pointer bg-[#16423C]'} rounded-lg p-4 text-white transition `}
                   />
                 </div>
 
                 <div className="mt-6 flex flex-col gap-5">
                   <p className="text-white">
-                    Ҳисобингиз борми?{' '}
+                    Xisobingiz bormi?{' '}
                     <Link to="/auth/signin" className='hover:underline'>
-                      Тизимга кириш
+                      Tizmiga kirish
                     </Link>
                   </p>
                 </div>

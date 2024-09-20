@@ -11,7 +11,6 @@ import SwitcherIsActive from '../components/Switchers/SwitcherIsActive.tsx';
 import SelectForm from '../components/select/Select.tsx';
 import { Pagination } from 'antd';
 import PendingLoader from '../common/Loader/pending-loader.tsx';
-import { unReload } from '../common/privacy-features/privacy-features.tsx';
 import { AdminDataList } from '../types/admin.ts';
 
 const thead: IThead[] = [
@@ -40,7 +39,6 @@ const UserAdmin = () => {
 
   useEffect(() => {
     getAdminLists(setGetAdminList, setIsLoading, page, setTotalPage);
-    unReload();
   }, []);
 
   useEffect(() => {

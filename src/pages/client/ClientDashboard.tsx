@@ -3,12 +3,12 @@ import { getMe } from '../../common/global-functions';
 import ClientDashboardCard from '../../components/ClientDashboardCard';
 import { getClientCertificate, getClientDashboardStatistic, getUserStatistic } from '../../common/logic-functions/dashboard';
 import dashboardStore from '../../common/state-management/dashboardStore';
-import { Skeleton } from 'antd';
 import { getCertificate } from '../../common/logic-functions/test';
 import { BorderBeam } from '@/components/magicui/border-beam';
 import NumberTicker from '@/components/magicui/number-ticker';
 import Meteors from '@/components/magicui/meteors';
 import { GetMeeTypes } from '@/types/auth';
+import CustomSkeleton from '@/components/skeleton/custom-skeleton';
 
 const ClientDashboard: React.FC = () => {
   const { clientstatistic, setClientStatistic } = dashboardStore();
@@ -23,8 +23,10 @@ const ClientDashboard: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    getClientDashboardStatistic(23, setClientStatistic, setIsLoading);
-  }, [getMee?.userId, setClientStatistic]);
+    if (getMee?.userId) {
+      getClientDashboardStatistic(getMee?.userId, setClientStatistic, setIsLoading);
+    }
+  }, [getMee]);
 
   const handleUploadCertificate = (id: number) => {
     setLoadingStates(prev => ({ ...prev, [id]: { ...prev[id], certificate: true } }));
@@ -35,9 +37,6 @@ const ClientDashboard: React.FC = () => {
     setLoadingStates(prev => ({ ...prev, [id]: { ...prev[id], email: true } }));
     getCertificate(id, setLoadingStates);
   };
-
-  console.log(statistic);
-  
 
   return (
     <>
@@ -75,7 +74,7 @@ const ClientDashboard: React.FC = () => {
           </div>
         </div>
 
-        {isLoading ? <Skeleton />
+        {isLoading ? <div className='mt-10 grid grid-cols-3 gap-5'>{[...Array(6)].map((_, index) => <CustomSkeleton key={index} />)}</div>
           : clientstatistic ?
             <div className="mt-4">
               <div className="grid lg:grid-cols-3 gap-5 flex-wrap">

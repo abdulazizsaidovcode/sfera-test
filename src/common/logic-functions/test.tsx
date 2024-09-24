@@ -53,10 +53,10 @@ export const fetchQuiz = async (id: string | undefined, setQuizData: (val: TestM
   }
 };
 
-export const sendResults = async (id: string | undefined, duration: number, payload: any[], navigate: (path: string) => void, setIsLoading: (val: boolean) => void, setCurrentIndex: (val: number) => void, setQuizData: (val: TestMainData) => void) => {
+export const sendResults = async (id: string | undefined, countAnswers: number, duration: number, payload: any[], navigate: (path: string) => void, setIsLoading: (val: boolean) => void, setCurrentIndex: (val: number) => void, setQuizData: (val: TestMainData) => void) => {
   setIsLoading(true);
   try {
-    const { data } = await axios.post(`${quiz_pass}/${id}?duration=${duration}`, payload, config);
+    const { data } = await axios.post(`${quiz_pass}/${id}?duration=${duration}&countAnswer=${countAnswers}`, payload, config);
     if (data.data) {
       navigate('/client/quiz/result');
       setIsLoading(false);

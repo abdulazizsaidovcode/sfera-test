@@ -40,8 +40,8 @@ const ClientDashboardCard: React.FC<{
           </div>
         </div>
       </div>
-      <div className={data.status === 'A\'lo' ? 'flex lg:gap-2 justify-between items-center' : ''}>
-        <div className={data.status === 'A\'lo' ? 'mt-4 bg-green-600 w-[70%] text-white py-2 px-4 flex justify-center items-center rounded' : data.status === 'Yaxshi' ? 'mt-4 bg-yellow-600 text-white py-2 px-4 flex justify-center items-center rounded' : 'mt-4 bg-red-600 text-white py-2 px-4 flex justify-center items-center rounded'}>
+      <div>
+        <div className={data.status === 'A\'lo' ? 'mt-4 bg-green-600 text-white py-2 px-4 flex justify-center items-center rounded' : data.status === 'Yaxshi' ? 'mt-4 bg-yellow-600 text-white py-2 px-4 flex justify-center items-center rounded' : 'mt-4 bg-red-600 text-white py-2 px-4 flex justify-center items-center rounded'}>
           {data.status === 'A\'lo' ? 'A\'lo' : data.status === 'Yaxshi' ? 'Yaxshi' : 'Yomon'}
         </div>
         {/* {data.status === 'A\'lo' &&

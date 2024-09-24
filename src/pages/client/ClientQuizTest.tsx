@@ -6,7 +6,7 @@ import { TestOptionDtos } from '../../types/test';
 import AddButtons from '../../components/buttons/buttons';
 import { api_videos_files } from '../../common/api/api';
 import globalStore from '../../common/state-management/globalStore';
-import { Image, Skeleton } from 'antd';
+import { Image } from 'antd';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { Progress } from 'antd';
 import MathFormula from '../../components/math-formula.tsx';
@@ -21,17 +21,17 @@ const ClientQuizTest = () => {
   const [isNextDisabled, setIsNextDisabled] = useState(true);
   const [isBtnLoading, setIsBtnLoading] = useState(false);
   const [isVisibleIndex, setIsVisibleIndex] = useState(false);
-  const [hasSubmitted, setHasSubmitted] = useState(false); // New state variable to track if results have been sent
+  const [hasSubmitted, setHasSubmitted] = useState(false);
   const navigate = useNavigate();
-  const [totalTime, setTotalTime] = useState<number>(0); // New state to track the total time
+  const [totalTime, setTotalTime] = useState<number>(0);
   const { id } = useParams<{ id: string }>();
+
 
   const payload = quizData.quizList.map((question) => {
     const answer = answers[question.id];
-    return answer && answer.length > 0 ? {
+    return answer !== undefined ? {
       questionId: question.id,
-      optionIds: answer,
-      answer: ''
+      optionId: answer,
     } : null;
   }).filter(answer => answer !== null);
 
@@ -52,6 +52,9 @@ const ClientQuizTest = () => {
     }
   }, [quizData, setCurrentIndex]);
 
+  console.log(payload);
+
+
   useEffect(() => {
     const timer = setInterval(() => {
       setRemainingTime((prevTime) => {
@@ -61,7 +64,7 @@ const ClientQuizTest = () => {
             setHasSubmitted(true);
             alert('Vaqt tugati!');
             navigate('/');
-            sendResults(id, time, payload, navigate, setIsBtnLoading, setCurrentIndex, setQuizData);
+            sendResults(id, quizData.quizList.length, time, payload, navigate, setIsBtnLoading, setCurrentIndex, setQuizData);
           }
           return 0;
         }
@@ -84,7 +87,7 @@ const ClientQuizTest = () => {
     const currentQuestion = quizData.quizList[currentIndex];
     let hasSelected = false;
     if (currentQuestion) {
-          hasSelected = answers[currentQuestion.id] !== undefined;
+      hasSelected = answers[currentQuestion.id] !== undefined;
     }
     setIsNextDisabled(!hasSelected);
     localStorage.setItem('currentIndex', currentIndex.toString());
@@ -119,8 +122,8 @@ const ClientQuizTest = () => {
           />
         </div>}
         <ul className="text-sm flex  flex-col gap-2 font-medium dark:border-gray-600 dark:text-white">
-          <div className='text-red-500 font-bold mb-3'>
-            Фақат битта тўғри жавобни белгиланг
+          <div className='text-darkGreen font-bold mb-3'>
+            Faqat bitta tug'ri javobni belgilang
           </div>
           {optionList && optionList.map((item, index) => (
             <li key={index} className="w-full border rounded-lg border-gray-200 dark:border-gray-600">
@@ -224,7 +227,7 @@ const ClientQuizTest = () => {
                 </AddButtons>
                 <AddButtons
                   onClick={currentIndex + 1 === quizData.quizList.length ? async () => {
-                    await sendResults(id, time === 0 ? 1 : time, payload, navigate, setIsBtnLoading, setCurrentIndex, setQuizData);
+                    await sendResults(id, quizData.quizList.length, time === 0 ? 1 : time, payload, navigate, setIsBtnLoading, setCurrentIndex, setQuizData);
                   } : handleNextQuestion}
                   disabled={isBtnLoading ? isBtnLoading : isNextDisabled}>{currentIndex + 1 === quizData.quizList.length ? `${isBtnLoading ? 'Yuklanmoqda...' : 'Yuborish'}` : 'Keyingisi'}
                 </AddButtons>

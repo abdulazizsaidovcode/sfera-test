@@ -1,5 +1,5 @@
 // swagger url => base
-export const base_url: string = 'http://142.93.106.195:8080/';
+export const base_url: string = 'http://93.188.84.178:8080/';
 // const base_url: string = 'http://192.168.0.116:8080/';
 
 // ESLATMA: URL OXRIDA => / QUYILGAN BULSA YOKI ID KETADI YOKI TEXT YANI SEARCHLAR UCHUN
@@ -60,7 +60,7 @@ export const api_videos_files: string = `${base_url}api/videos/files/`; // video
 
 //================QUIZ CONTROLLER======================
 export const quiz_pass: string = `${base_url}test/pass`; // Client Testni Submit qilishi uchun
-export const    quiz_start: string = `${base_url}test/start`; // Client Testni Boshlash uchun qilishi uchun
+export const quiz_start: string = `${base_url}test/start`; // Client Testni Boshlash uchun qilishi uchun
 
 //================CERTIFICATE CONTROLLER======================
 export const get_certificate_id: string = `${base_url}certificate/certificate-get`; // Client result olishi uchun

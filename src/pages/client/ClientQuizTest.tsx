@@ -9,7 +9,6 @@ import globalStore from '../../common/state-management/globalStore';
 import { Image } from 'antd';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { Progress } from 'antd';
-import MathFormula from '../../components/math-formula.tsx';
 import CustomSkeleton from '@/components/skeleton/custom-skeleton.tsx';
 import { unReload } from '@/common/privacy-features/privacy-features.tsx';
 
@@ -111,7 +110,7 @@ const ClientQuizTest = () => {
       <div>
         <div className="flex py-5 justify-center items-start gap-3">
           <p className="">{`${index}.`}</p>
-          <MathFormula text={name} />
+          {name}
         </div>
         {attachmentIds && attachmentIds.length > 0 && <div className="flex justify-center items-center py-5">
           <Image
@@ -147,7 +146,7 @@ const ClientQuizTest = () => {
                   htmlFor={`radio-${index}`}
                   className="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  <MathFormula text={item.answer} />
+                  {item.answer}
                 </label>
               </div>
             </li>

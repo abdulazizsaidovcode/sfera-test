@@ -96,7 +96,7 @@ const Address = () => {
   };
 
   const toggleDeleteDistricModal = () => {
-    setIsDeleteDistricModal(!isDeleteDistricModal);
+    setIsDeleteDistricMod al(!isDeleteDistricModal);
     setName('');
     setId(0);
   };

@@ -16,10 +16,16 @@ const SignIn = () => {
       setResData(false);
       setPhoneNumber('');
       setPassword('');
-      toast.success('Тизимга муваффақиятли кирдингиз');
+
       const role = localStorage.getItem('ROLE');
-      if (role === 'ROLE_USER') navigate('/client/dashboard');
-      else if (role === 'ROLE_STUDENT') navigate('/client/dashboard');
+      if (role === 'ROLE_USER') {
+        navigate('/client/dashboard');
+        toast.success('Тизимга муваффақиятли кирдингиз');
+      }
+      else if (role === 'ROLE_STUDENT') {
+        navigate('/client/dashboard');
+        toast.success('Тизимга муваффақиятли кирдингиз');
+      }
     }
   }, [resData]);
 

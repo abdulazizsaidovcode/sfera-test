@@ -10,7 +10,7 @@ export const sliceNumber = (num: string) => {
   else if (+num.length === 9) return `998${num}`;
   else if (num.startsWith('998')) return num;
   else {
-    toast.error('Телефон рақамини тўғри киритинг. Намуна: +998912223344');
+    toast.error('Telefon raqamini to‘g‘ri kiriting. Namuna: +998912223344');
     return '';
   }
 };
@@ -43,7 +43,7 @@ export const authRegister = (
           consoleClear();
           setLoading(false);
           if (res.data.data) setResData(true);
-          else if (res.data.error.message === 'Phone number allaqachon mavjud.') toast.error('Бу э-маил билан рўйхатдан утилган!!!');
+          else if (res.data.error.message === 'Phone number allaqachon mavjud.') toast.error('Bu telefon raqam bilan alqachon ro\'yhatdan o\'tilgan');
         })
         .catch(() => {
           consoleClear();
@@ -51,11 +51,11 @@ export const authRegister = (
         });
     } else {
       setLoading(false);
-      toast.error('Парол ва такрорий парол мослигини текшириб қайтадан уриниб кўринг');
+      toast.error('Parol va takroriy parol mosligini tekshirib qaytadan urinib ko‘ring');
     }
   } else {
     setLoading(false);
-    toast.error('Маълумотлар тўлиқлигини текшириб кўринг!!!');
+    toast.error('Ma\'lumotlar to‘liqligini tekshirib ko‘ring!!!');
   }
 };
 
@@ -74,7 +74,7 @@ export const registerClientActive = async (
       if (data.success) {
         setResData(true);
         setLoading(false);
-      } else toast.error('Нимадир хато кетди, қайта уриниб кўринг!!!');
+      } else toast.error('Nimadir xato ketdi, qayta urinib ko‘ring!!!');
     } else {
       toast.error('Кодда хатолик бор, қайта киритинг');
       setLoading(false);
@@ -82,7 +82,7 @@ export const registerClientActive = async (
   } catch {
     consoleClear();
     setLoading(false);
-    toast.error('Нимадир хато кетди, қайта уриниб кўринг!!!');
+    toast.error('Nimadir xato ketdi, qayta urinib ko‘ring!!!');
   }
 };
 
@@ -114,14 +114,14 @@ export const handleSubmit = async (
         consoleClear();
       }
     } catch (err: any) {
-      if (err.response.data.message === 'Inactive account') toast.error('Сизни киришингиз тақиқлаб қуйилган');
-      else toast.error('Логин ёки паролни хато киритдингиз');
+      if (err.response.data.message === 'Inactive account') toast.error('Sizni kirishingiz taqiqlab quyilgan');
+      else toast.error('Login yoki parolni xato kiritdingiz');
       setLoading(false);
       consoleClear();
     }
   } else {
     setLoading(false);
-    toast.error('Маълумотлар тўлиқлигини текшириб кўринг!!!');
+    toast.error('Ma\'lumotlar to‘liqligini tekshirib ko‘ring!!!');
   }
 };
 
@@ -144,15 +144,15 @@ export const forgotPasswordEmail = async (
         setLoading(false);
       } else {
         setLoading(false);
-        toast.error('Нимадир хатолик юз берди, кейинроқ қайта уриниб кўринг!!!');
+        toast.error('Nimadir xatolik yuz berdi, keyinroq qayta urinib ko‘ring!!!');
       }
     } else {
       consoleClear();
       setLoading(false);
     }
   } catch (err: any) {
-    if (err.response.data['message: '] === 'User not found') toast.error('Бу фойдаланувчи мавжуд эмас!!!');
-    else toast.error('Нимадир хатолик юз берди, кейинроқ қайта уриниб кўринг!!!');
+    if (err.response.data['message: '] === 'User not found') toast.error('Bu foydalanuvchi mavjud emas!!!');
+    else toast.error('Nimadir xatolik yuz berdi, keyinroq qayta urinib ko‘ring!!!');
     consoleClear();
     setLoading(false);
   }
@@ -180,21 +180,21 @@ export const resetPassword = async (
         } else {
           consoleClear();
           setLoading(false);
-          toast.error('Нимадир хатолик юз берди, кейинроқ қайта уриниб кўринг!!!');
+          toast.error('Nimadir xatolik yuz berdi, keyinroq qayta urinib ko‘ring!!!');
         }
       } else {
         consoleClear();
         setLoading(false);
-        toast.error('Маълумотлар тўлиқ эмас қайтадан уриниб кўринг!!!');
+        toast.error('Ma\'lumotlar to‘liq emas qaytadan urinib ko‘ring!!!');
       }
     } else {
       consoleClear();
       setLoading(false);
-      toast.error('Пароллар мослиги тўғри келмади, текшириб қайтадан уриниб кўринг!!!');
+      toast.error('Parollar mosligi to‘g‘ri kelmadi, tekshirib qaytadan urinib ko‘ring!!!');
     }
   } catch {
     consoleClear();
     setLoading(false);
-    toast.error('Нимадир хатолик юз берди, кейинроқ қайта уриниб кўринг!!!');
+    toast.error('Nimadir xatolik yuz berdi, keyinroq qayta urinib ko‘ring!!!');
   }
 };

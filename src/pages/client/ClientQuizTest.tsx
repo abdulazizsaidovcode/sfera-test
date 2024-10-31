@@ -213,7 +213,7 @@ const ClientQuizTest = () => {
                   onClick={toggleVisibleIndex}
                   className="bg-[#16423C] flex items-center justify-center gap-3 py-2 cursor-pointer px-4 rounded-xl dark:bg-blue-600"
                 >
-                  <p className="text-white">Саволлар {currentIndex + 1} / {quizData && quizData.quizList.length}</p>
+                  <p className="text-white">Savollar {currentIndex + 1} / {quizData && quizData.quizList.length}</p>
                   {isVisibleIndex
                     ? <IoIosArrowDown className="text-white text-xl" />
                     : <IoIosArrowUp className="text-white text-xl" />
